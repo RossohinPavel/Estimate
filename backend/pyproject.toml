@@ -7,3 +7,24 @@ dependencies = [
     "fastapi>=0.119.0",
     "uvicorn>=0.38.0",
 ]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.14.1",
+]
+
+[tool.ruff]
+line-length = 100
+preview = true
+lint.select = ["E", "F", "W", "UP", "I002", "TID25", "D101", "D102", "D103", "D107"]
+lint.extend-select = ["E302", "E305", "E306"]
+lint.extend-fixable = ["E302", "E305", "E306"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]  # ignore unused imports in __init__.py
+
+[tool.ruff.format]
+indent-style = "space"
+quote-style = "double"
+skip-magic-trailing-comma = true
+line-ending = "cr-lf"
