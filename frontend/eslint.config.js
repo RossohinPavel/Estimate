@@ -19,5 +19,35 @@ export default defineConfig([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    rules: {
+      // Запрет однострочных блоков
+      curly: ["error", "all"],
+
+      // Проверка пробельных символов
+      "no-irregular-whitespace": [
+        "error",
+        {
+          skipStrings: false,
+          skipTemplates: false,
+        },
+      ],
+
+      // Правило для использования console
+      "no-console": [
+        "error",
+        {
+          allow: ["info", "error", "warn"],
+        },
+      ],
+    },
+  },
+  {
+    // Особые настройки для vite.config.ts
+    files: ["vite.config.ts"],
+    languageOptions: {
+      parserOptions: {
+        project: "./tsconfig.node.json",
+      },
+    },
   },
 ]);

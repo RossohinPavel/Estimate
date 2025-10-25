@@ -3,7 +3,7 @@ lint-backend:
 	cd backend && uv run ruff check --fix --show-fixes
 
 lint-frontend:
-	@echo "lint forntend"
+	cd frontend && pnpm types && pnpm lint --fix
 
 lint: lint-backend lint-frontend
 
@@ -11,12 +11,13 @@ format-backend:
 	cd backend && uv run ruff format .
 
 format-frontend:
-	@echo "format frontend"
+	cd frontend && pnpm format
 
 format: format-frontend format-backend
 
-lf-backend: format-backend lint-backend
+laf-backend: format-backend lint-backend
 
-lf-frontend: format-frontend lint-frontend
+laf-frontend: format-frontend lint-frontend
 
-laf: lf-backend lf-frontend
+laf: laf-backend laf-frontend
+	@echo [-- All checks passed, code formatted --]
