@@ -3,7 +3,7 @@ lint-backend:
 	cd backend && uv run ruff check --fix --show-fixes
 
 lint-frontend:
-	cd frontend && pnpm types && pnpm lint --fix
+	cd frontend && pnpm types && pnpm lint
 
 lint: lint-backend lint-frontend
 

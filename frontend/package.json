@@ -8,12 +8,13 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "types": "tsc --noEmit --project ./tsconfig.node.json && tsc --noEmit --project ./tsconfig.json",
-    "lint": "eslint --cache --cache-location ./node_modules/.cache/.eslintcache --ext .ts,.tsx .",
+    "lint": "eslint --cache --cache-location ./node_modules/.cache/.eslintcache --ext .ts,.tsx . --fix",
     "format": "prettier --log-level warn --cache --write {src/**/*,*}.{ts,tsx,js,json,yaml,scss,css} !**/{node_modules,dist}/**/*"
   },
   "dependencies": {
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "react-router-dom": "^7.9.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.38.0",
