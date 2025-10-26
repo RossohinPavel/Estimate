@@ -1,0 +1,24 @@
+x-app_environment: &app_environment
+  environment:
+    # Postgress
+    - POSTGRES_HOST
+    - POSTGRES_PORT
+    - POSTGRES_USER
+    - POSTGRES_PASSWORD
+    - POSTGRES_DB
+
+services:
+  postgres:
+    restart: always
+    image: postgres:18.0-alpine
+    ports:
+      - ${POSTGRES_PORT}:5432
+    volumes:
+      - postgresdata:/var/lib/postgresql
+    environment:
+      - POSTGRES_DB
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+
+volumes:
+  postgresdata:

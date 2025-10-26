@@ -9,8 +9,3 @@ app = FastAPI(title="EstimateAPI", summary="API для приложения по
 async def ping() -> Literal["pong"]:
     """Пинг сервиса"""
     return "pong"
-
-
-async def test():
-    """some doc"""
-    pass
