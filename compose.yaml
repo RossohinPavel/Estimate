@@ -9,7 +9,7 @@ x-app_environment: &app_environment
 
 services:
   postgres:
-    restart: always
+    restart: unless-stopped
     image: postgres:18.0-alpine
     ports:
       - ${POSTGRES_PORT}:5432
