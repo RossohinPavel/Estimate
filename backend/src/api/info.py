@@ -25,7 +25,7 @@ async def get_latest_update(repo: InfoRepository = Depends(get_info_repository))
     return result
 
 
-@router.get("/")
-async def get_updates() -> str:
+@router.get("/", response_model=list[InfoSchema])
+async def get_updates(repo: InfoRepository = Depends(get_info_repository)):
     """Возвращает записи об обновлени приложения с сортировкой от поздней к ранней с пагинацией."""
-    return "latest_update list"
+    return await repo.get_records_list()
