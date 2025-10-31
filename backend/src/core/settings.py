@@ -1,5 +1,5 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pydantic import computed_field
+from pydantic import computed_field, Field
 
 
 class _Settings(BaseSettings):
@@ -8,7 +8,7 @@ class _Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file="../.env", extra="ignore")
 
     # APP Settings
-    MODE: str
+    MODE: str = Field(alias="BACKEND_MODE")
 
     # Postgress params
     POSTGRES_HOST: str
