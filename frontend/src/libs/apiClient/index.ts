@@ -2,40 +2,38 @@ import z from "zod";
 import { Config } from "../../config";
 import { InfoSchema, type InfoSchemaType } from "../../schemas";
 
-export const apiClient = {
-  apiUrl: Config.BACKEND_URL,
+type ParamsType<T> = {
+  urn: string,
+  queries?: Record<string, string | number | boolean>,
+  schema: z.ZodSchema<T>
+}
 
-  /**
-   * Функция для сборки uri для апи запросов.
-   */
-  _getUri: function (urn: string): string {
-    return `${this.apiUrl}${urn}`;
-  },
+export const createApiClient = (baseUrl: string) => {
+  // собираем uri для запроса
+  const buildUri = (urn: string) => `${baseUrl}${urn}`;
 
-  /**
-   * Делает GET запрос к апишке
-   * @param urn Эндпоинт, к которому нужно обратиться
-   */
-  _get: async function (urn: string): Promise<unknown> {
-    const uri = this._getUri(urn);
+  // Делает GET запрос
+  const get = async <T>(params: ParamsType<T>): Promise<T> => {
+    const uri = buildUri(params.urn);
     const response = await fetch(uri);
-    return response.json();
-  },
+    const json = await response.json();
+    return params.schema.parseAsync(json);
+  }
 
   /**
    * Возвращает массив записей с информацией приложения.
    * Бэкенд автоматическии сортирует записи по убыванию даты создания.
    */
-  getAppUpdates: async function (): Promise<InfoSchemaType[]> {
-    const response = await this._get("info/");
-    return z.array(InfoSchema).parseAsync(response);
-  },
+  const getAppUpdates = async (): Promise<InfoSchemaType[]> => {
+    return get({urn: 'info/', schema: z.array(InfoSchema)});
+  }
 
-  /**
-   * Возвращает последнюю запись информации о приложении.
-   */
-  getAppLatestUpdate: async function (): Promise<InfoSchemaType> {
-    const response = await this._get("info/latest_update");
-    return InfoSchema.parseAsync(response);
-  },
-};
+  // Возвращает последнюю запись информации о приложении.
+  const getAppLatestUpdate = async (): Promise<InfoSchemaType> => {
+    return get({urn: "info/latest_update", schema: InfoSchema});
+  }
+
+  return {getAppUpdates, getAppLatestUpdate};
+}
+
+export const apiClient = createApiClient(Config.BACKEND_URL);

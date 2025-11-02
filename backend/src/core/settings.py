@@ -27,4 +27,4 @@ class _Settings(BaseSettings):
         )
 
 
-Settings = _Settings()  # type:ignore
+settings = _Settings()  # type:ignore

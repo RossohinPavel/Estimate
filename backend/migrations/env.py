@@ -5,7 +5,7 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from src.core import Settings
+from src.core import settings
 from src.models import Base, Info  # noqa: F401
 
 # this is the Alembic Config object, which provides
@@ -13,7 +13,7 @@ from src.models import Base, Info  # noqa: F401
 config = context.config
 
 
-config.set_main_option("sqlalchemy.url", Settings.POSTGRES_ASYNC_URL + "?async_fallback=True")
+config.set_main_option("sqlalchemy.url", settings.POSTGRES_ASYNC_URL + "?async_fallback=True")
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.

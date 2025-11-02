@@ -1,8 +1,8 @@
 from sqlalchemy.ext.asyncio import create_async_engine
-from .settings import Settings
+from .settings import settings
 
 
-base_async_engine = create_async_engine(Settings.POSTGRES_ASYNC_URL)
+base_async_engine = create_async_engine(settings.POSTGRES_ASYNC_URL)
 
-if Settings.MODE == "dev":
+if settings.MODE == "dev":
     base_async_engine.echo = True
