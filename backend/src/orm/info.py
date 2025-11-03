@@ -1,7 +1,8 @@
-from sqlalchemy import select, desc
+from sqlalchemy import desc, select
+
+from src.models import Info
 
 from ._base import BaseRepository
-from src.models import Info
 
 
 class InfoRepository(BaseRepository):

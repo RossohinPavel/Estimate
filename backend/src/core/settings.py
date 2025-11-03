@@ -1,5 +1,5 @@
+from pydantic import Field, computed_field
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pydantic import computed_field, Field
 
 
 class _Settings(BaseSettings):

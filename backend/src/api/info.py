@@ -1,8 +1,10 @@
 from fastapi import APIRouter, Depends
 from fastapi.exceptions import HTTPException
-from .dependencies import get_info_repository
+
 from src.orm import InfoRepository
 from src.schemas import InfoSchema
+
+from .dependencies import get_info_repository
 
 
 router = APIRouter(prefix="/info")

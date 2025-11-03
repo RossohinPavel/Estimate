@@ -1,8 +1,9 @@
 import asyncio
-from .logger import logger
-from socket import socket, AF_INET, SOCK_STREAM
+from socket import AF_INET, SOCK_STREAM, socket
 
 from src.core import settings
+
+from .logger import logger
 
 
 async def wait_db_connection():
