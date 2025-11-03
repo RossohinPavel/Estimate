@@ -14,7 +14,10 @@ export const App = () => {
           <Route element={<Layout />}>
             <Route path={pages.routes.getMainPage()} element={<pages.MainPage />} />
             <Route path={pages.routes.getEstimatesPage()} element={<pages.EstimatesPage />} />
-            <Route path={pages.routes.getEstimatePage(':estimateId')} element={<pages.EstimatePage />} />
+            <Route
+              path={pages.routes.getEstimatePage(":estimateId")}
+              element={<pages.EstimatePage />}
+            />
             <Route path={pages.routes.getTemplatesPage()} element={<pages.TemplatesPage />} />
             <Route path={pages.routes.getAboutPage()} element={<pages.AboutPage />} />
           </Route>
