@@ -16,7 +16,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.add_event_handler('startup', wait_db_connection)
+app.add_event_handler("startup", wait_db_connection)
 
 app.include_router(api_router)
 

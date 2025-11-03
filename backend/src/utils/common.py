@@ -1,14 +1,14 @@
 import asyncio
 from .logger import logger
-from socket import socket, AF_INET, SOCK_STREAM, error as socket_error
+from socket import socket, AF_INET, SOCK_STREAM
 
 from src.core import settings
 
 
 async def wait_db_connection():
-    """Функция для ожидания старта БД-шки. 
+    """Функция для ожидания старта БД-шки.
     Хотя в compose прописана зависимость, но сама бд внутри контейнера стартует не сразу,
-    особенно если там уже есть множетсво записей. Для корректной работы бэкенда дождемся, 
+    особенно если там уже есть множетсво записей. Для корректной работы бэкенда дождемся,
     когда БД-шка будет отвечать на запросы.
     """
     tries = 0
@@ -17,10 +17,10 @@ async def wait_db_connection():
         try:
             sock.connect((settings.POSTGRES_HOST, int(settings.POSTGRES_PORT)))
             sock.close()
-            logger.info('Connection to the db has been established.')
+            logger.success("Connection to the db has been established.")
             return
-        except socket_error:
+        except OSError:
             await asyncio.sleep(0.1)
             tries += 1
-    logger.critical('Failed to connect to db.')
-    raise socket_error
+    logger.critical("Failed to connect to db.")
+    raise OSError
