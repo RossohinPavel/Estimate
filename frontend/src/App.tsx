@@ -1,8 +1,9 @@
+import { Layout } from "./components/Layout";
+import * as pages from "./pages";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import * as pages from "./pages";
-import { Layout } from "./components/Layout";
 import "./styles/global.scss";
+
 
 const queryClient = new QueryClient();
 

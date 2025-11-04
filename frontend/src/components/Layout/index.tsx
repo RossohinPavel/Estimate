@@ -1,5 +1,6 @@
-import { Link, Outlet } from "react-router-dom";
 import { routes } from "../../pages";
+import { Link, Outlet } from "react-router-dom";
+
 
 export const Layout = () => {
   return (

@@ -4,9 +4,11 @@ import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 import { defineConfig, globalIgnores } from "eslint/config";
+import importPlugin from "eslint-plugin-import";
+import unusedImports from "eslint-plugin-unused-imports";
 
 export default defineConfig([
-  globalIgnores(["dist"]),
+  globalIgnores(["dist", "node_modules"]),
   {
     files: ["**/*.{ts,tsx}"],
     extends: [
@@ -15,6 +17,10 @@ export default defineConfig([
       reactHooks.configs["recommended-latest"],
       reactRefresh.configs.vite,
     ],
+    plugins: {
+      "import": importPlugin,
+      "unused-imports": unusedImports,
+    },
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
@@ -22,7 +28,6 @@ export default defineConfig([
     rules: {
       // Запрет однострочных блоков
       curly: ["error", "all"],
-
       // Проверка пробельных символов
       "no-irregular-whitespace": [
         "error",
@@ -31,12 +36,38 @@ export default defineConfig([
           skipTemplates: false,
         },
       ],
-
       // Правило для использования console
       "no-console": [
         "error",
         {
           allow: ["info", "error", "warn"],
+        },
+      ],
+       // Сортировка импортов по алфавиту
+      "import/order": [
+        "error",
+        {
+          groups: [
+            ["builtin", "external", "internal", "parent", "sibling", "index", "object", "type"],
+          ],
+          alphabetize: {
+            order: "asc",
+            caseInsensitive: true,
+          },
+          "newlines-between": "never",
+        },
+      ],
+      // 2 линии после импортов
+      "import/newline-after-import": ["error", { "count": 2 }],
+      // Удаление неиспользуемых импортов
+      "unused-imports/no-unused-imports": "error",
+      "unused-imports/no-unused-vars": [
+        "warn",
+        {
+          vars: "all",
+          varsIgnorePattern: "^_",
+          args: "after-used",
+          argsIgnorePattern: "^_",
         },
       ],
     },

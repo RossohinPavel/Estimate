@@ -1,5 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "../../libs/apiClient";
+import { useQuery } from "@tanstack/react-query";
+
 
 export const AboutPage = () => {
   const { data, isLoading, error, isError } = useQuery({

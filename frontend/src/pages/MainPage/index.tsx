@@ -3,6 +3,7 @@ import reactLogo from "/src/assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./MainPage.css";
 
+
 export const MainPage = () => {
   const [count, setCount] = useState(0);
 

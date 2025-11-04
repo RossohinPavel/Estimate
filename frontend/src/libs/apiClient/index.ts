@@ -1,6 +1,7 @@
-import z from "zod";
 import { Config } from "../../config";
 import { InfoSchema, type InfoSchemaType } from "../../schemas";
+import z from "zod";
+
 
 type ParamsType<T> = {
   urn: string;
