@@ -1,29 +1,32 @@
-import { useState } from "react";
-import reactLogo from "/src/assets/react.svg";
-import viteLogo from "/vite.svg";
+import { apiClient } from "../../libs/apiClient";
+import { useQuery } from "@tanstack/react-query";
 
 
 export const MainPage = () => {
-  const [count, setCount] = useState(0);
+  const { data, isLoading, error, isError } = useQuery({
+    queryKey: ["appLatestUpdate"],
+    queryFn: apiClient.getAppLatestUpdate,
+    staleTime: 60 * 60 * 1000,
+    gcTime: 60 * 60 * 1000,
+  });
+
+  if (isLoading || data === undefined) {
+    return <>Loading...</>;
+  }
+
+  if (isError) {
+    return <>Error: {error.message}</>;
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div>
+      <h2>Последнее обновлене</h2>
+      <div key={data.id}>
+        <h3>
+          {data.created_at.toLocaleDateString()} - {data.title}
+        </h3>
+        <p>{data.content}</p>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-    </>
+    </div>
   );
 };

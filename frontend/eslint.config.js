@@ -26,6 +26,7 @@ export default defineConfig([
       globals: globals.browser,
     },
     rules: {
+      "linebreak-style": ["error", "windows"],
       // Запрет однострочных блоков
       curly: ["error", "all"],
       // Проверка пробельных символов
