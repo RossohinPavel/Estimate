@@ -1,3 +1,4 @@
+import { InfoForm } from "../../components/InfoForm";
 import { apiClient } from "../../libs/apiClient";
 import { useQuery } from "@tanstack/react-query";
 
@@ -20,6 +21,8 @@ export const AboutPage = () => {
 
   return (
     <div>
+      <InfoForm />
+      <hr />
       <h2>Последние обновления приложения</h2>
       {data?.map((info) => (
         <div key={info.id}>

@@ -9,3 +9,11 @@ export const InfoSchema = z.object({
 });
 
 export type InfoSchemaType = z.infer<typeof InfoSchema>;
+
+// Схема для создания записи о приложении
+export const CreateInfoSchema = z.object({
+  title: z.string().min(1),
+  content: z.string().min(1),
+});
+
+export type CreateInfoSchemaType = z.infer<typeof CreateInfoSchema>;
