@@ -18,7 +18,7 @@ export default defineConfig([
       reactRefresh.configs.vite,
     ],
     plugins: {
-      "import": importPlugin,
+      import: importPlugin,
       "unused-imports": unusedImports,
     },
     languageOptions: {
@@ -29,21 +29,10 @@ export default defineConfig([
       // Запрет однострочных блоков
       curly: ["error", "all"],
       // Проверка пробельных символов
-      "no-irregular-whitespace": [
-        "error",
-        {
-          skipStrings: false,
-          skipTemplates: false,
-        },
-      ],
+      "no-irregular-whitespace": ["error", { skipStrings: false, skipTemplates: false }],
       // Правило для использования console
-      "no-console": [
-        "error",
-        {
-          allow: ["info", "error", "warn"],
-        },
-      ],
-       // Сортировка импортов по алфавиту
+      "no-console": ["error", { allow: ["info", "error", "warn"] }],
+      // Сортировка импортов по алфавиту
       "import/order": [
         "error",
         {
@@ -58,17 +47,12 @@ export default defineConfig([
         },
       ],
       // 2 линии после импортов
-      "import/newline-after-import": ["error", { "count": 2 }],
+      "import/newline-after-import": ["error", { count: 2, exactCount: true }],
       // Удаление неиспользуемых импортов
       "unused-imports/no-unused-imports": "error",
       "unused-imports/no-unused-vars": [
         "warn",
-        {
-          vars: "all",
-          varsIgnorePattern: "^_",
-          args: "after-used",
-          argsIgnorePattern: "^_",
-        },
+        { vars: "all", varsIgnorePattern: "^_", args: "after-used", argsIgnorePattern: "^_" },
       ],
     },
   },

@@ -3,13 +3,13 @@ lint-backend:
 	cd backend && uv run ruff check --fix --show-fixes
 
 lint-frontend:
-	cd frontend && pnpm types && pnpm lint
+	cd frontend && pnpm types && pnpm lint && pnpm stylecheck
 
 format-backend:
 	cd backend && uv run ruff format .
 
 format-frontend:
-	cd frontend && pnpm format
+	cd frontend && pnpm format && pnpm stylelint
 
-laf: lint-backend format-backend lint-frontend format-frontend
+laf: lint-backend format-backend format-frontend lint-frontend 
 	@echo [-- All checks passed, code formatted --]
