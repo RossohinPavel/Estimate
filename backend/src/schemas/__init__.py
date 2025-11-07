@@ -1,1 +1,1 @@
-from .info import InfoSchema
+from .info import CreateInfoSchema, InfoSchema

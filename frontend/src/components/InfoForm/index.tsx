@@ -4,6 +4,7 @@ import { withZodSchema } from "formik-validator-zod";
 
 
 export const InfoForm = () => {
+  // const createInfoRecord = useMutation({})
   return (
     <Formik
       initialValues={{ title: "", content: "" }}

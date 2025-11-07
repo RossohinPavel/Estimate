@@ -31,7 +31,7 @@ export const createApiClient = (baseUrl: string) => {
 
   // Возвращает последнюю запись информации о приложении.
   const getAppLatestUpdate = async (): Promise<InfoSchemaType> => {
-    return get({ urn: "info/latest_update", schema: InfoSchema });
+    return get({ urn: "info/latest", schema: InfoSchema });
   };
 
   return { getAppUpdates, getAppLatestUpdate };

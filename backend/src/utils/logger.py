@@ -16,3 +16,13 @@ logger.add(
     filter=lambda r: r["level"].no < logger.level("ERROR").no,
     enqueue=True,  # Необходимо для корректной работы в асинхронном приложении
 )
+
+# Настройки для обработки ошибок
+# Сделаем расширенный шаблон для обработки логов
+error_template = (
+    "<level>[{level:^7}]</level> | <green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | {message}"
+)
+
+logger.add(sys.stdout, level="ERROR", format=error_template, enqueue=True)
+
+logger.add("logs/error.log", level="ERROR", format=error_template, rotation="10 MB", enqueue=True)

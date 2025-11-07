@@ -11,5 +11,5 @@ format-backend:
 format-frontend:
 	cd frontend && pnpm format && pnpm stylelint
 
-laf: lint-backend format-backend format-frontend lint-frontend 
+laf: format-backend lint-backend format-frontend lint-frontend 
 	@echo [-- All checks passed, code formatted --]
