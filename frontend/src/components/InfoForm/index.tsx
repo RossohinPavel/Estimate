@@ -1,15 +1,26 @@
+import { apiClient } from "../../libs/apiClient";
 import { CreateInfoSchema } from "../../schemas";
+import { useMutation } from "@tanstack/react-query";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { withZodSchema } from "formik-validator-zod";
 
 
 export const InfoForm = () => {
-  // const createInfoRecord = useMutation({})
+  const createInfoMutation = useMutation({
+    mutationFn: apiClient.createAppUpdate,
+    onSuccess: (data) => {
+      console.info("Received: ", data);
+    },
+    onError: (error) => {
+      console.error("Error: ", error);
+    },
+  });
+
   return (
     <Formik
       initialValues={{ title: "", content: "" }}
       onSubmit={(values) => {
-        console.info("Submited", values);
+        createInfoMutation.mutateAsync(values);
       }}
       validate={withZodSchema(CreateInfoSchema) as (v: unknown) => object}
     >
@@ -29,6 +40,7 @@ export const InfoForm = () => {
         </div>
 
         <button type="submit">Отправить</button>
+        {createInfoMutation.isPending && <div>Loading...</div>}
       </Form>
     </Formik>
   );

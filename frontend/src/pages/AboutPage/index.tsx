@@ -24,12 +24,14 @@ export const AboutPage = () => {
       <InfoForm />
       <hr />
       <h2>Последние обновления приложения</h2>
+      <br />
       {data?.map((info) => (
         <div key={info.id}>
           <h3>
             {info.created_at.toLocaleDateString()} - {info.title}
           </h3>
           <p>{info.content}</p>
+          <br />
         </div>
       ))}
     </div>
