@@ -1,6 +1,6 @@
 import type { ParamsType, PostParamsType } from "./types";
-import { Config } from "../../config";
 import { InfoSchema, type CreateInfoSchemaType, type InfoSchemaType } from "../../schemas";
+import { config } from "../config";
 import z from "zod";
 
 
@@ -49,4 +49,4 @@ export const createApiClient = (baseUrl: string) => {
   return { getAppUpdates, getAppLatestUpdate, createAppUpdate };
 };
 
-export const apiClient = createApiClient(Config.BACKEND_URL);
+export const apiClient = createApiClient(config.VITE_BACKEND_URL);

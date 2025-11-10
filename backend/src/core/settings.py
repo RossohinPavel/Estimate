@@ -2,13 +2,15 @@ from pydantic import Field, computed_field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-class _Settings(BaseSettings):
+class Config(BaseSettings):
     """Настройки приложения, подхваченные из виртуального окружения и секретов."""
 
     model_config = SettingsConfigDict(env_file="../.env", extra="ignore")
 
     # APP Settings
     MODE: str = Field(alias="BACKEND_MODE")
+    JWT_SECRET: str
+    PASSWORD_SALT: str
 
     # Postgress params
     POSTGRES_HOST: str
@@ -27,4 +29,4 @@ class _Settings(BaseSettings):
         )
 
 
-settings = _Settings()  # type:ignore
+config = Config()  # type:ignore

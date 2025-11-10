@@ -1,7 +1,7 @@
 import asyncio
 from socket import AF_INET, SOCK_STREAM, socket
 
-from src.core import settings
+from src.core import config
 
 from .logger import logger
 
@@ -16,7 +16,7 @@ async def wait_db_connection():
     sock = socket(AF_INET, SOCK_STREAM)
     while tries <= 1800:
         try:
-            sock.connect((settings.POSTGRES_HOST, int(settings.POSTGRES_PORT)))
+            sock.connect((config.POSTGRES_HOST, int(config.POSTGRES_PORT)))
             sock.close()
             logger.success("Connection to the db has been established.")
             return

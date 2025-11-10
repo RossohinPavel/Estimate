@@ -2,13 +2,13 @@ from collections.abc import AsyncGenerator
 
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 
-from src.core import settings
+from src.core import config
 from src.utils import logger
 
 
-base_async_engine = create_async_engine(settings.POSTGRES_ASYNC_URL)
+base_async_engine = create_async_engine(config.POSTGRES_ASYNC_URL)
 
-if settings.MODE == "dev":
+if config.MODE == "dev":
     base_async_engine.echo = True
 
 
