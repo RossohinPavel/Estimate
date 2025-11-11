@@ -1,4 +1,5 @@
 from typing import Literal
+
 from fastapi import APIRouter, Depends
 from fastapi.exceptions import HTTPException
 
@@ -9,14 +10,13 @@ from src.utils import logger
 from .dependencies import get_info_repository
 
 
-router = APIRouter(prefix="", tags=['app'])
+router = APIRouter(prefix="", tags=["app"])
 
 
 @router.get("/ping", status_code=200)
 async def ping() -> Literal["pong"]:
     """Пинг сервиса"""
     return "pong"
-
 
 
 responses: dict = {
@@ -50,6 +50,3 @@ async def get_latest_update(repo: InfoRepository = Depends(get_info_repository))
     if result is None:
         raise HTTPException(404, "Item not found")
     return result
-
-
-
