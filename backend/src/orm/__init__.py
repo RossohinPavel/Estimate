@@ -1,1 +1,1 @@
-from .info import InfoRepository
+from .app import InfoRepository
