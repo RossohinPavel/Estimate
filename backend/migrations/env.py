@@ -3,8 +3,8 @@ from logging.config import fileConfig
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
-from src.core import config as app_config
-from src.models import Base, Info, User  # noqa: F401
+from src.core import settings as app_config
+from src.models import Base, Info, User, RefreshToken  # noqa: F401
 
 
 # this is the Alembic Config object, which provides

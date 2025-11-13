@@ -18,3 +18,10 @@ class CreateUserSchema(BaseModel):
     def validate_password(cls, password: str) -> str:
         """Логика валидации пароля"""
         return password
+
+
+class TokenSchema(BaseModel):
+    """Схема ответа для токенов приложения"""
+
+    access_token: str
+    refresh_token: str

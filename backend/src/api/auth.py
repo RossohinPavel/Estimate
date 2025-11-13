@@ -1,18 +1,15 @@
 from fastapi import APIRouter, Depends
 
-from src.orm import UserRepository
-from src.schemas import CreateUserSchema
-from src.utils import get_password_hash, logger
-
-from .dependencies import get_user_repository
+from src import services
+from src.core import get_base_session
+from src.schemas import CreateUserSchema, TokenSchema
 
 
 router = APIRouter(prefix="/auth")
 
 
-@router.post("/sign_up", status_code=200, response_model=CreateUserSchema)
-async def sign_up(new_user: CreateUserSchema, repo: UserRepository = Depends(get_user_repository)):
+@router.post("/sign_up", status_code=200, response_model=TokenSchema)
+async def sign_up(new_user: CreateUserSchema, session=Depends(get_base_session)):
     """Создаем нового пользователя"""
-    user = await repo.create_user(new_user.email, get_password_hash(new_user.password))
-    logger.info(f"User with email = {new_user.email} was created")
-    return user
+    refresh_token, access_token = await services.auth.create_user(new_user, session)
+    return TokenSchema(refresh_token=refresh_token, access_token=access_token)

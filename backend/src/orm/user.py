@@ -12,5 +12,4 @@ class UserRepository(BaseRepository):
         """Создаем нового пользователя"""
         user = User(email=email, password=password)
         self.session.add(user)
-        await self.session.commit()
         return user
