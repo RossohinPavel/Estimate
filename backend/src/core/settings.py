@@ -13,9 +13,10 @@ class Settings(BaseSettings):
     # Security
     PASSWORD_SALT: str
     JWT_ALGORITHM: str = Field(default="HS256")
-    JWT_SECRET: str
-    JWT_REFRESH_TOKEN_EXPIRE_DAYS: int = Field(default=30)
+    JWT_ACCESS_TOKEN_SECRET: str
     JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int = Field(default=20)
+    JWT_REFRESH_TOKEN_SECRET: str
+    JWT_REFRESH_TOKEN_EXPIRE_DAYS: int = Field(default=30)
 
     # Postgress params
     POSTGRES_HOST: str
