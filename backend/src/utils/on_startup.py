@@ -3,7 +3,7 @@ from socket import AF_INET, SOCK_STREAM, socket
 
 from src.core import settings
 
-from .logger_config import logger
+from .logger import logger
 
 
 async def wait_db_connection():

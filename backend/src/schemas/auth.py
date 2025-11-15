@@ -1,8 +1,8 @@
 from pydantic import BaseModel, field_validator
 
 
-class CreateUserSchema(BaseModel):
-    """Схема, которая используется при создании пользователя"""
+class AuthUserSchema(BaseModel):
+    """Схема, которая используется при авторизации пользователя"""
 
     email: str
     password: str
@@ -23,5 +23,11 @@ class CreateUserSchema(BaseModel):
 class TokenSchema(BaseModel):
     """Схема ответа для токенов приложения"""
 
-    access_token: str
     refresh_token: str
+    access_token: str
+
+
+class RefreshTokenSchema(BaseModel):
+    """Схема для обновления токена"""
+
+    token: str

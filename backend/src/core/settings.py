@@ -1,3 +1,5 @@
+from datetime import timedelta, timezone
+
 from pydantic import Field, computed_field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -9,6 +11,7 @@ class Settings(BaseSettings):
 
     # APP Settings
     MODE: str = Field(alias="BACKEND_MODE")
+    TIMEZONE: timezone = timezone(timedelta(hours=3), "MSK")
 
     # Security
     PASSWORD_SALT: str

@@ -2,12 +2,8 @@ import hashlib
 from datetime import datetime, timedelta
 
 import jwt
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.core import settings
-from src.orm import UserRepository
-from src.schemas import CreateUserSchema
-from src.utils import logger
 
 
 def get_password_hash(password: str) -> str:
@@ -29,16 +25,18 @@ def create_token(email: str, created_at: datetime, _type: str) -> str:
     return jwt.encode(payload, secret, algorithm=settings.JWT_ALGORITHM)
 
 
-async def create_user(new_user: CreateUserSchema, session: AsyncSession) -> tuple[str, str]:
-    """Создает пользователеля, генерирует для него пару acess и refresh токенов и возвращает их"""
-    user_repo = UserRepository(session)
-    password_hash = get_password_hash(new_user.password)
-    async with session.begin():
-        user = await user_repo.create_user(new_user.email, password_hash)
-        await session.flush()
-        refresh_token = create_token(user.email, user.created_at, "refresh")
-        access_token = create_token(user.email, user.created_at, "access")
-        await session.rollback()
-
-    logger.info(f"User with email = {new_user.email} was created")
-    return refresh_token, access_token
+def parse_refresh_token(token: str) -> dict:
+    """Парсим рефреш токен"""
+    try:
+        payload = jwt.decode(
+            token, settings.JWT_REFRESH_TOKEN_SECRET, algorithms=[settings.JWT_ALGORITHM]
+        )
+    except jwt.ExpiredSignatureError:
+        raise ValueError("Token expired")
+    except jwt.InvalidTokenError:
+        raise ValueError("Invalid token")
+    if payload.get("type", None) != "refresh":
+        raise ValueError("Invalid token type")
+    if payload.get("email", None) is None:
+        raise ValueError("Invalid token")
+    return payload

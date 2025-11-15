@@ -1,3 +1,5 @@
+from sqlalchemy import select
+
 from src.models import User
 
 from ._base import BaseRepository
@@ -12,4 +14,12 @@ class UserRepository(BaseRepository):
         """Создаем нового пользователя"""
         user = User(email=email, password=password)
         self.session.add(user)
+        await self.session.commit()
         return user
+
+    async def get_user(self, email: str, password: str | None = None) -> User | None:
+        """Функция получения пользователя из базы данных."""
+        stmt = select(User).where(User.email == email)
+        if password is not None:
+            stmt = stmt.where(User.password == password)
+        return await self.session.scalar(stmt)

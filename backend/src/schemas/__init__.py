@@ -1,2 +1,2 @@
 from .app import CreateInfoSchema, InfoSchema
-from .auth import CreateUserSchema, TokenSchema
+from .auth import AuthUserSchema, RefreshTokenSchema, TokenSchema

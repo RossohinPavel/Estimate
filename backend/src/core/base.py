@@ -1,9 +1,10 @@
 from collections.abc import AsyncGenerator
 
+from fastapi import HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 
 from src.core import settings
-from src.utils import logger
+from src.utils.logger import logger
 
 
 base_async_engine = create_async_engine(settings.POSTGRES_ASYNC_URL)
@@ -17,6 +18,8 @@ async def get_base_session() -> AsyncGenerator[AsyncSession, None]:
     async with AsyncSession(base_async_engine, expire_on_commit=False) as session:
         try:
             yield session
+        except HTTPException:
+            raise
         except Exception as e:
             await session.rollback()
             logger.exception(f"Session rollbacked. Reason: {e}")

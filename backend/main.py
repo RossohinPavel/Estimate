@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.api import app_router as api_router
-from src.utils import wait_db_connection
+from src.utils.on_startup import wait_db_connection
 
 
 app = FastAPI(title="EstimateAPI", summary="API для приложения по составлению смет")
