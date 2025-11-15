@@ -8,11 +8,10 @@ export const MainPage = () => {
     queryFn: apiClient.getAppLatestUpdate,
     staleTime: 60 * 60 * 1000,
     gcTime: 60 * 60 * 1000,
-    retry: false
+    retry: false,
   });
 
   if (isLoading) {
-    console.log(error)
     return <>Loading...</>;
   }
 

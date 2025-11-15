@@ -24,7 +24,7 @@ async def sign_up(new_user: AuthUserSchema, session=Depends(get_base_session)):
         access_token = auth_utils.create_token(user.email, user.created_at, "access")
         logger.info(f"User(email={new_user.email}) was created")
         return TokenSchema(refresh_token=refresh_token, access_token=access_token)
-    except IntegrityError as e:
+    except IntegrityError:
         await session.rollback()
         raise HTTPException(400, f"User with email: {new_user.email} alredy exists.")
 
