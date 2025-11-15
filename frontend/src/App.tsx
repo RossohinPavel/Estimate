@@ -21,6 +21,8 @@ export const App = () => {
             />
             <Route path={pages.routes.getTemplatesPage()} element={<pages.TemplatesPage />} />
             <Route path={pages.routes.getAboutPage()} element={<pages.AboutPage />} />
+            <Route path={pages.routes.getSignUpPage()} element={<pages.SignUpPage />} />
+            <Route path={pages.routes.getSignInPage()} element={<pages.SignInPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

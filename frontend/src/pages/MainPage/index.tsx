@@ -8,9 +8,11 @@ export const MainPage = () => {
     queryFn: apiClient.getAppLatestUpdate,
     staleTime: 60 * 60 * 1000,
     gcTime: 60 * 60 * 1000,
+    retry: false
   });
 
-  if (isLoading || data === undefined) {
+  if (isLoading) {
+    console.log(error)
     return <>Loading...</>;
   }
 
@@ -21,11 +23,11 @@ export const MainPage = () => {
   return (
     <div>
       <h2>Последнее обновлене</h2>
-      <div key={data.id}>
+      <div key={data!.id}>
         <h3>
-          {data.created_at.toLocaleDateString()} - {data.title}
+          {data!.created_at.toLocaleDateString()} - {data!.title}
         </h3>
-        <p>{data.content}</p>
+        <p>{data!.content}</p>
       </div>
     </div>
   );

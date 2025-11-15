@@ -26,7 +26,7 @@ async def sign_up(new_user: AuthUserSchema, session=Depends(get_base_session)):
         return TokenSchema(refresh_token=refresh_token, access_token=access_token)
     except IntegrityError as e:
         await session.rollback()
-        raise HTTPException(400, f"User with email={new_user.email} alredy exists.\ndetail: {e}")
+        raise HTTPException(400, f"User with email: {new_user.email} alredy exists.")
 
 
 @router.post("/sign_in", status_code=200, response_model=TokenSchema)

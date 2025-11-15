@@ -22,6 +22,10 @@ export const Layout = () => {
       </span>
       <span> | </span>
       <span>Профиль</span>
+      <span> | </span>
+      <span>
+        <Link to={routes.getSignInPage()}>Войти</Link>
+      </span>
       <hr />
       <div>
         <Outlet />

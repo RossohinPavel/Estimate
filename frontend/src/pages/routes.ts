@@ -1,10 +1,12 @@
 const createRoutes = () => {
   return {
-    getMainPage: () => "/",
+    getAboutPage: () => "/about",
     getEstimatesPage: () => "/estimates/",
     getEstimatePage: (estimateId: string) => `/estimates/${estimateId}`,
+    getMainPage: () => "/",
+    getSignInPage: () => "/sign-in",
+    getSignUpPage: () => "/sign-up",
     getTemplatesPage: () => "/templates",
-    getAboutPage: () => "/about",
   };
 };
 

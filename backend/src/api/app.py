@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.core import get_base_session
 from src.orm import InfoRepository
 from src.schemas import CreateInfoSchema, InfoSchema
-from src.utils import logger
+from src.utils.logger import logger
 
 
 router = APIRouter(prefix="", tags=["app"])
