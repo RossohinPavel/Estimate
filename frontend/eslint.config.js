@@ -40,10 +40,7 @@ export default defineConfig([
           groups: [
             ["builtin", "external", "internal", "parent", "sibling", "index", "object", "type"],
           ],
-          alphabetize: {
-            order: "asc",
-            caseInsensitive: true,
-          },
+          alphabetize: { order: "asc", caseInsensitive: true },
           "newlines-between": "never",
         },
       ],

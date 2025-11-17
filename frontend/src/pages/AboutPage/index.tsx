@@ -1,5 +1,5 @@
 import { InfoForm } from "../../components/InfoForm";
-import { apiClient } from "../../libs/apiClient";
+import { apiClient } from "../../core/apiClient";
 import { useQuery } from "@tanstack/react-query";
 
 

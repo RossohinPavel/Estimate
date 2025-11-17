@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from pydantic import BaseModel, field_validator
 
 
@@ -20,14 +22,23 @@ class AuthUserSchema(BaseModel):
         return password
 
 
-class TokenSchema(BaseModel):
-    """Схема ответа для токенов приложения"""
+class TokenDataSchema(BaseModel):
+    """Схема токена"""
 
-    refresh_token: str
+    email: str
+    exp: datetime
+    type: str
+
+
+class AccessTokenSchema(BaseModel):
+    """Схема аксесс токена"""
+
     access_token: str
+    token_type: str
 
 
 class RefreshTokenSchema(BaseModel):
-    """Схема для обновления токена"""
+    """Схема рефреш токена"""
 
-    token: str
+    refresh_token: str
+    token_type: str

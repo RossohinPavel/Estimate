@@ -1,8 +1,11 @@
+import { useAppContext } from "../../contexts/AppContext/context";
 import { routes } from "../../pages";
 import { Link, Outlet } from "react-router-dom";
 
 
 export const Layout = () => {
+  const { user } = useAppContext();
+
   return (
     <div>
       <span>
@@ -21,7 +24,7 @@ export const Layout = () => {
         <Link to={routes.getAboutPage()}>О приложении</Link>
       </span>
       <span> | </span>
-      <span>Профиль</span>
+      <span>{String(user)}</span>
       <span> | </span>
       <span>
         <Link to={routes.getSignInPage()}>Войти</Link>

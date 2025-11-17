@@ -1,5 +1,5 @@
-import { apiClient } from "../../libs/apiClient";
-import { UserSchema } from "../../schemas";
+import { apiClient } from "../../core/apiClient";
+import { UserSchema } from "../../core/schemas";
 import { routes } from "../routes";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorMessage, Field, Form, Formik } from "formik";

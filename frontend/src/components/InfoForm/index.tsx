@@ -1,5 +1,5 @@
-import { apiClient } from "../../libs/apiClient";
-import { CreateInfoSchema } from "../../schemas";
+import { apiClient } from "../../core/apiClient";
+import { CreateInfoSchema } from "../../core/schemas";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { withZodSchema } from "formik-validator-zod";

@@ -1,14 +1,13 @@
 import type { ParamsType, PostParamsType } from "./types";
-import {
-  InfoSchema,
-  TokenSchema,
-  type CreateInfoSchemaType,
-  type InfoSchemaType,
-  type TokenSchemaType,
-  type UserSchemaType,
-  type CreateUserSchemaType,
-} from "../../schemas";
 import { config } from "../config";
+import { InfoSchema, TokenSchema } from "../schemas";
+import type {
+  CreateInfoSchemaType,
+  CreateUserSchemaType,
+  InfoSchemaType,
+  TokenSchemaType,
+  UserSchemaType,
+} from "../schemas";
 import z from "zod";
 
 

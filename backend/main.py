@@ -5,7 +5,7 @@ from src.api import app_router as api_router
 from src.utils.on_startup import wait_db_connection
 
 
-app = FastAPI(title="EstimateAPI", summary="API для приложения по составлению смет")
+app = FastAPI(title="SmetomaticAPI", summary="API для приложения по составлению смет")
 
 app.add_middleware(
     CORSMiddleware,
