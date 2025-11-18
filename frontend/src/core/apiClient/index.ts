@@ -1,11 +1,11 @@
 import type { ParamsType, PostParamsType } from "./types";
 import { config } from "../config";
-import { InfoSchema, TokenSchema } from "../schemas";
+import { InfoSchema, TokensArraySchema } from "../schemas";
 import type {
   CreateInfoSchemaType,
   CreateUserSchemaType,
   InfoSchemaType,
-  TokenSchemaType,
+  TokensArraySchemaType,
   UserSchemaType,
 } from "../schemas";
 import z from "zod";
@@ -60,12 +60,12 @@ export const createApiClient = (baseUrl: string) => {
   };
 
   // Получаем токены пользователя.
-  const signIn = async (user: UserSchemaType): Promise<TokenSchemaType> => {
-    return post({ endpoint: "api/auth/sign_in", schema: TokenSchema, body: user });
+  const signIn = async (user: UserSchemaType): Promise<TokensArraySchemaType> => {
+    return post({ endpoint: "api/auth/sign_in", schema: TokensArraySchema, body: user });
   };
 
-  const signUp = async (user: CreateUserSchemaType): Promise<TokenSchemaType> => {
-    return post({ endpoint: "api/auth/sign_up", schema: TokenSchema, body: user });
+  const signUp = async (user: CreateUserSchemaType): Promise<TokensArraySchemaType> => {
+    return post({ endpoint: "api/auth/sign_up", schema: TokensArraySchema, body: user });
   };
 
   return { getAppUpdates, getAppLatestUpdate, createAppUpdate, signIn, signUp };

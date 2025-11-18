@@ -13,7 +13,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/auth/sign_in_docs", refreshUr
 def validate_token(type: Literal["access", "refresh"] = "access"):
     """Замыкание, которое возвращает фукнцию валидирующую токен."""
 
-    async def _inner(token: Annotated[str, Depends(oauth2_scheme)]) -> TokenDataSchema:
+    def _inner(token: Annotated[str, Depends(oauth2_scheme)]) -> TokenDataSchema:
         """Валидирует токен"""
         try:
             return parse_token(token, type)

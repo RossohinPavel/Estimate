@@ -16,14 +16,30 @@ export const UserSchema = z.object({
 
 export type UserSchemaType = z.infer<typeof UserSchema>;
 
-type RawUserSchema = {
-  refresh_token: string;
+type ServerAccessTokenSchema = {
   access_token: string;
-};
+  token_type: string;
+}
 
-export const TokenSchema = z.transform((data: RawUserSchema) => ({
-  refreshToken: data.refresh_token,
+type ServerRefreshTokenSchema = {
+  refresh_token: string;
+  token_type: string;
+}
+
+export const AccessTokenSchema = z.transform((data: ServerAccessTokenSchema) => ({
   accessToken: data.access_token,
+  tokenType: data.token_type,
 }));
 
-export type TokenSchemaType = z.infer<typeof TokenSchema>;
+export const RefreshTokenSchema = z.transform((data: ServerRefreshTokenSchema) => ({
+  refreshToken: data.refresh_token,
+  tokenType: data.token_type,
+}));
+
+export type AccessTokenSchemaTyype = z.infer<typeof AccessTokenSchema>;
+
+export type RefreshTokenSchemaType = z.infer<typeof RefreshTokenSchema>;
+
+export const TokensArraySchema = z.tuple([RefreshTokenSchema, AccessTokenSchema]);
+
+export type TokensArraySchemaType = z.infer<typeof TokensArraySchema>;
