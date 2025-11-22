@@ -1,0 +1,27 @@
+@import '../../styles/vars';
+
+
+.layout {
+    display: flex;
+    justify-content: space-between;
+    background-color: $excelGreen;
+    padding: 0.5rem 0.5rem 0 0.5rem;
+
+    .side {
+        display: flex;
+
+        .link-active {
+            color: $excelGreen;
+            background-color: $excelWhite;
+        }
+    }
+
+    .side > * {
+        padding: 0.6rem;
+    }
+
+    a {
+        font-weight: bolder;
+        color: $excelWhite;
+    }
+}
