@@ -9,22 +9,22 @@ export const CreateUserSchema = z.object({
 
 export type CreateUserSchemaType = z.infer<typeof CreateUserSchema>;
 
-export const UserSchema = z.object({
+export const UserAuthSchema = z.object({
   email: z.email().nonempty(),
   password: z.string().nonempty(),
 });
 
-export type UserSchemaType = z.infer<typeof UserSchema>;
+export type UserAuthSchemaType = z.infer<typeof UserAuthSchema>;
 
 type ServerAccessTokenSchema = {
   access_token: string;
   token_type: string;
-}
+};
 
 type ServerRefreshTokenSchema = {
   refresh_token: string;
   token_type: string;
-}
+};
 
 export const AccessTokenSchema = z.transform((data: ServerAccessTokenSchema) => ({
   accessToken: data.access_token,

@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useAppContext } from "../../contexts/AppContext/context";
 import { routes } from "../../pages";
 import { Link, Outlet } from "react-router-dom";
@@ -5,6 +6,14 @@ import { Link, Outlet } from "react-router-dom";
 
 export const Layout = () => {
   const { user } = useAppContext();
+
+  const profileSide = useMemo(() => {
+    if ( user === null ) {
+      return <Link to={routes.getSignInPage()}>Войти</Link>;
+    } else {
+      return <Link to={routes.getProfilePage()}>{user.email}</Link>
+    }
+  }, [user])
 
   return (
     <div>
@@ -24,11 +33,7 @@ export const Layout = () => {
         <Link to={routes.getAboutPage()}>О приложении</Link>
       </span>
       <span> | </span>
-      <span>{String(user)}</span>
-      <span> | </span>
-      <span>
-        <Link to={routes.getSignInPage()}>Войти</Link>
-      </span>
+      <span>{profileSide}</span>
       <hr />
       <div>
         <Outlet />

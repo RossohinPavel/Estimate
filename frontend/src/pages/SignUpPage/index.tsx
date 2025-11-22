@@ -4,15 +4,23 @@ import { useMutation } from "@tanstack/react-query";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { withZodSchema } from "formik-validator-zod";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../../contexts/AppContext/context";
+import { routes } from "../routes";
 
 
 export const SignUpPage = () => {
   const [error, setError] = useState<string | null>(null);
 
+  const navigate = useNavigate();
+
+  const { setUserData } = useAppContext();
+
   const getTokensMutation = useMutation({
     mutationFn: apiClient.signUp,
-    onSuccess: (data) => {
-      console.info("Received: ", data);
+    onSuccess: () => {
+      setUserData();
+      navigate(routes.getMainPage())
     },
     onError: (error) => {
       setError(error.message);

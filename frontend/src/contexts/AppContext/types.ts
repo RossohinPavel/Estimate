@@ -1,3 +1,9 @@
+import type { TokensArraySchemaType, UserDataSchemaType } from "../../core/schemas";
+
+
+
 export interface AppContextType {
-  user: object | null;
+  user: UserDataSchemaType | null;
+  setUserData: () => void;
+  signOut: () => void;
 }

@@ -1,74 +1,133 @@
-import type { ParamsType, PostParamsType } from "./types";
+import type { RequestPropsType, PostRequestPropsType, GetRequestPropsType } from "./types";
 import { config } from "../config";
-import { InfoSchema, TokensArraySchema } from "../schemas";
+import { InfoSchema, TokensArraySchema, UserDataSchema } from "../schemas";
 import type {
   CreateInfoSchemaType,
   CreateUserSchemaType,
   InfoSchemaType,
   TokensArraySchemaType,
-  UserSchemaType,
+  UserAuthSchemaType,
+  UserDataSchemaType,
 } from "../schemas";
 import z from "zod";
+import Cookies from "js-cookie";
+
 
 
 export const createApiClient = (baseUrl: string) => {
+  const defaultHeaders = { "Content-Type": "application/json" };
+
   // собираем uri для запроса
   const buildUrl = (urn: string) => `${baseUrl}${urn}`;
 
-  // Делает GET запрос
-  const get = async <T>(params: ParamsType<T>): Promise<T> => {
-    const url = buildUrl(params.endpoint);
-    const response = await fetch(url);
+  const _request = async (url: string, init: RequestInit): Promise<unknown> => {
+    const response = await fetch(url, init);
     const json = await response.json();
-    if (!response.ok) {
-      throw new Error(json.detail);
+    if ( !response.ok ) {
+      throw new Error(json.detail, { cause: response.status });
     }
-    return params.schema.parseAsync(json);
+    return json;
   };
 
-  // Делает POST запрос
-  const post = async <T>(params: PostParamsType<T>): Promise<T> => {
-    const url = buildUrl(params.endpoint);
-    const response = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(params.body),
-    });
-    const json = await response.json();
-    if (!response.ok) {
-      throw new Error(json.detail);
-    }
-    return params.schema.parseAsync(json);
+  const isAuthError = (e: unknown): e is Error & { cause: 401 } => {
+    return e instanceof Error && e.cause === 401;
   };
 
-  /**
-   * Возвращает массив записей с информацией приложения.
-   * Бэкенд автоматическии сортирует записи по убыванию даты создания.
-   */
-  const getAppUpdates = async (): Promise<InfoSchemaType[]> => {
-    return get({ endpoint: "info/", schema: z.array(InfoSchema) });
+  const _authRequest = async (url: string, init: RequestInit): Promise<unknown> => {
+    const headers = init.headers as Record<string, string>;
+    headers.authorization = `Bearer ${Cookies.get('accessToken')}`;
+    try {
+      return await _request(url, init);
+    } catch (e) {
+      if ( !isAuthError(e) ) {
+        throw e;
+      }
+    }
+    Cookies.remove('accessToken');
+    const refreshToken = `Bearer ${Cookies.get('refreshToken')}`
+    const refreshHeaders = {...defaultHeaders, authorization: refreshToken};
+    const refreshUrl = buildUrl('api/auth/refresh');
+    const tokens = await _request(refreshUrl, {method: 'POST', headers: refreshHeaders});
+    await setupTokens(tokens);
+    headers.authorization = `Bearer ${Cookies.get('accessToken')}`;
+    return _request(url, init);
+  }
+
+  const setupTokens = async (tokens: unknown): Promise<boolean> => {
+    const [refresh, access] = await z.parseAsync(TokensArraySchema, tokens);
+    Cookies.set('refreshToken', refresh.refreshToken, {expires: 30});
+    Cookies.set('accessToken', access.accessToken, {expires: 1});
+    return true;
+  };
+
+  const request = async <T>(props: RequestPropsType<T>, init: RequestInit): Promise<T> => {
+    const url = buildUrl(props.endpoint);
+    init.headers = {...defaultHeaders};
+    if ( props.body !== undefined ) {
+      init.body = JSON.stringify(props.body);
+    }
+    let response;
+    if ( props.auth === true ) {
+      response = await _authRequest(url, init);
+    } else {
+      response = await _request(url, init);
+    }
+    if ( props.schema !== undefined ) {
+      return z.parseAsync(props.schema, response);
+    }
+    return response as T;
+  };
+
+  const get = async <T>(props: GetRequestPropsType<T>): Promise<T> => {
+    return request(props, {method: "GET"});
+  };
+
+  const post = async <T>(props: PostRequestPropsType<T>): Promise<T> => {
+    return request(props, {method: 'POST'})
   };
 
   // Возвращает последнюю запись информации о приложении.
   const getAppLatestUpdate = async (): Promise<InfoSchemaType> => {
-    return get({ endpoint: "info/latest", schema: InfoSchema });
+    return get({endpoint: 'info/latest', schema: InfoSchema});
+  };
+
+  // Возвращает массив записей с информацией приложения.
+  const getAppUpdates = async (): Promise<InfoSchemaType[]> => {
+    return get({endpoint: 'info/', schema: z.array(InfoSchema)});
   };
 
   // Создаем новую запись об обновлении приложения.
   const createAppUpdate = async (newUpdate: CreateInfoSchemaType): Promise<InfoSchemaType> => {
-    return post({ endpoint: "info/", schema: InfoSchema, body: newUpdate });
+    return post({endpoint: 'info/', body: newUpdate, schema: InfoSchema});;
   };
 
-  // Получаем токены пользователя.
-  const signIn = async (user: UserSchemaType): Promise<TokensArraySchemaType> => {
-    return post({ endpoint: "api/auth/sign_in", schema: TokensArraySchema, body: user });
+  // Авторизация пользователя в сервисе. метод на бэкенде возвращает два токена.
+  const signIn = async (user: UserAuthSchemaType): Promise<boolean> => {
+    const tokens = await post({endpoint: 'api/auth/sign_in', body: user})
+    await setupTokens(tokens);
+    return true;
   };
 
-  const signUp = async (user: CreateUserSchemaType): Promise<TokensArraySchemaType> => {
-    return post({ endpoint: "api/auth/sign_up", schema: TokensArraySchema, body: user });
+  // Регистрация пользователя в сервисе.
+  const signUp = async (user: CreateUserSchemaType): Promise<boolean> => {
+    const tokens = await post({endpoint: 'api/auth/sign_up', body: user});
+    await setupTokens(tokens);
+    return true;
   };
 
-  return { getAppUpdates, getAppLatestUpdate, createAppUpdate, signIn, signUp };
+  // Логаут. Пока для нас будет достаточно удалить токены.
+  const signOut = async (): Promise<boolean> => {
+    Cookies.remove('accessToken');
+    Cookies.remove('refreshToken');
+    return true;
+  }
+
+  // Получение данных пользователя.
+  const getUserData = async (): Promise<UserDataSchemaType> => {
+    return get({endpoint: 'api/user', schema: UserDataSchema, auth: true})
+  }
+
+  return { getAppUpdates, getAppLatestUpdate, createAppUpdate, signIn, signUp, signOut, getUserData };
 };
 
 export const apiClient = createApiClient(config.VITE_BACKEND_URL);

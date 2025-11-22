@@ -1,20 +1,26 @@
 import { apiClient } from "../../core/apiClient";
-import { UserSchema } from "../../core/schemas";
+import { UserAuthSchema } from "../../core/schemas";
 import { routes } from "../routes";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { withZodSchema } from "formik-validator-zod";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppContext } from "../../contexts/AppContext/context";
 
 
 export const SignInPage = () => {
   const [error, setError] = useState<string | null>(null);
 
-  const getTokensMutation = useMutation({
+  const navigate = useNavigate();
+
+  const { setUserData } = useAppContext();
+
+  const authorizeUser = useMutation({
     mutationFn: apiClient.signIn,
-    onSuccess: (data) => {
-      console.info("Received: ", data);
+    onSuccess: () => {
+      setUserData();
+      navigate(routes.getMainPage());
     },
     onError: (error) => {
       setError(error.message);
@@ -25,11 +31,10 @@ export const SignInPage = () => {
     <>
       <Formik
         initialValues={{ email: "", password: "" }}
-        validate={withZodSchema(UserSchema) as (v: unknown) => object}
-        onSubmit={async (values, { resetForm }) => {
+        validate={withZodSchema(UserAuthSchema) as (v: unknown) => object}
+        onSubmit={async (values) => {
           setError(null);
-          await getTokensMutation.mutateAsync(values);
-          resetForm();
+          await authorizeUser.mutateAsync(values);
         }}
       >
         <Form>

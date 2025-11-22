@@ -1,14 +1,18 @@
 import type z from "zod";
 
 
-export type ParamsType<T> = {
+
+type BodyType = Record<string, string | number | boolean | null | BodyType[]>;
+
+
+export type RequestPropsType<T> = {
   endpoint: string;
-  queries?: Record<string, string | number | boolean>;
-  schema: z.ZodSchema<T>;
-};
+  queries?: Record<string, string>;
+  auth?: boolean;
+  body?: BodyType,
+  schema?: z.ZodSchema<T>
+}
 
-type requestBody = Record<string, string | number | boolean | null | requestBody[]>;
+export type GetRequestPropsType<T> = Omit<RequestPropsType<T>, 'body'>
 
-export type PostParamsType<T> = ParamsType<T> & {
-  body: requestBody;
-};
+export type PostRequestPropsType<T> = RequestPropsType<T> & {body: BodyType}

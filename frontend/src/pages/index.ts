@@ -6,3 +6,4 @@ export { AboutPage } from "./AboutPage";
 export { routes } from "./routes.ts";
 export { SignUpPage } from "./SignUpPage";
 export { SignInPage } from "./SignInPage";
+export { ProfilePage } from "./ProfilePage";

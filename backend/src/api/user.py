@@ -10,7 +10,7 @@ from .middleware import validate_token
 router = APIRouter(prefix="/user")
 
 
-@router.get("/", response_model=UserSchema)
+@router.get("", response_model=UserSchema)
 async def get_user(
     token: TokenDataSchema = Depends(validate_token()), session=Depends(get_base_session)
 ):

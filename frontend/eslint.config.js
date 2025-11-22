@@ -44,6 +44,7 @@ export default defineConfig([
           "newlines-between": "never",
         },
       ],
+      "import/export": "error",
       // 2 линии после импортов
       "import/newline-after-import": ["error", { count: 2, exactCount: true }],
       // Удаление неиспользуемых импортов

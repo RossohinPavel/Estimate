@@ -16,6 +16,7 @@ export const App = () => {
           <Routes>
             <Route element={<Layout />}>
               <Route path={pages.routes.getMainPage()} element={<pages.MainPage />} />
+              <Route path={pages.routes.getProfilePage()} element={<pages.ProfilePage />} />
               <Route path={pages.routes.getEstimatesPage()} element={<pages.EstimatesPage />} />
               <Route
                 path={pages.routes.getEstimatePage(":estimateId")}
