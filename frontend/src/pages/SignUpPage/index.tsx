@@ -1,12 +1,12 @@
+import { useAppContext } from "../../contexts/AppContext/context";
 import { apiClient } from "../../core/apiClient";
 import { CreateUserSchema } from "../../core/schemas";
+import { routes } from "../routes";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { withZodSchema } from "formik-validator-zod";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAppContext } from "../../contexts/AppContext/context";
-import { routes } from "../routes";
 
 
 export const SignUpPage = () => {
@@ -20,7 +20,7 @@ export const SignUpPage = () => {
     mutationFn: apiClient.signUp,
     onSuccess: () => {
       setUserData();
-      navigate(routes.getMainPage())
+      navigate(routes.getMainPage());
     },
     onError: (error) => {
       setError(error.message);

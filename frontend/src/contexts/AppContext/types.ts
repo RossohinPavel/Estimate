@@ -1,5 +1,4 @@
-import type { TokensArraySchemaType, UserDataSchemaType } from "../../core/schemas";
-
+import type { UserDataSchemaType } from "../../core/schemas";
 
 
 export interface AppContextType {

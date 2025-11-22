@@ -5,13 +5,11 @@ import type {
   CreateInfoSchemaType,
   CreateUserSchemaType,
   InfoSchemaType,
-  TokensArraySchemaType,
   UserAuthSchemaType,
   UserDataSchemaType,
 } from "../schemas";
-import z from "zod";
 import Cookies from "js-cookie";
-
+import z from "zod";
 
 
 export const createApiClient = (baseUrl: string) => {
@@ -23,7 +21,7 @@ export const createApiClient = (baseUrl: string) => {
   const _request = async (url: string, init: RequestInit): Promise<unknown> => {
     const response = await fetch(url, init);
     const json = await response.json();
-    if ( !response.ok ) {
+    if (!response.ok) {
       throw new Error(json.detail, { cause: response.status });
     }
     return json;
@@ -35,99 +33,107 @@ export const createApiClient = (baseUrl: string) => {
 
   const _authRequest = async (url: string, init: RequestInit): Promise<unknown> => {
     const headers = init.headers as Record<string, string>;
-    headers.authorization = `Bearer ${Cookies.get('accessToken')}`;
+    headers.authorization = `Bearer ${Cookies.get("accessToken")}`;
     try {
       return await _request(url, init);
     } catch (e) {
-      if ( !isAuthError(e) ) {
+      if (!isAuthError(e)) {
         throw e;
       }
     }
-    Cookies.remove('accessToken');
-    const refreshToken = `Bearer ${Cookies.get('refreshToken')}`
-    const refreshHeaders = {...defaultHeaders, authorization: refreshToken};
-    const refreshUrl = buildUrl('api/auth/refresh');
-    const tokens = await _request(refreshUrl, {method: 'POST', headers: refreshHeaders});
+    Cookies.remove("accessToken");
+    const refreshToken = `Bearer ${Cookies.get("refreshToken")}`;
+    const refreshHeaders = { ...defaultHeaders, authorization: refreshToken };
+    const refreshUrl = buildUrl("api/auth/refresh");
+    const tokens = await _request(refreshUrl, { method: "POST", headers: refreshHeaders });
     await setupTokens(tokens);
-    headers.authorization = `Bearer ${Cookies.get('accessToken')}`;
+    headers.authorization = `Bearer ${Cookies.get("accessToken")}`;
     return _request(url, init);
-  }
+  };
 
   const setupTokens = async (tokens: unknown): Promise<boolean> => {
     const [refresh, access] = await z.parseAsync(TokensArraySchema, tokens);
-    Cookies.set('refreshToken', refresh.refreshToken, {expires: 30});
-    Cookies.set('accessToken', access.accessToken, {expires: 1});
+    Cookies.set("refreshToken", refresh.refreshToken, { expires: 30 });
+    Cookies.set("accessToken", access.accessToken, { expires: 1 });
     return true;
   };
 
   const request = async <T>(props: RequestPropsType<T>, init: RequestInit): Promise<T> => {
     const url = buildUrl(props.endpoint);
-    init.headers = {...defaultHeaders};
-    if ( props.body !== undefined ) {
+    init.headers = { ...defaultHeaders };
+    if (props.body !== undefined) {
       init.body = JSON.stringify(props.body);
     }
     let response;
-    if ( props.auth === true ) {
+    if (props.auth === true) {
       response = await _authRequest(url, init);
     } else {
       response = await _request(url, init);
     }
-    if ( props.schema !== undefined ) {
+    if (props.schema !== undefined) {
       return z.parseAsync(props.schema, response);
     }
     return response as T;
   };
 
   const get = async <T>(props: GetRequestPropsType<T>): Promise<T> => {
-    return request(props, {method: "GET"});
+    return request(props, { method: "GET" });
   };
 
   const post = async <T>(props: PostRequestPropsType<T>): Promise<T> => {
-    return request(props, {method: 'POST'})
+    return request(props, { method: "POST" });
   };
 
   // Возвращает последнюю запись информации о приложении.
   const getAppLatestUpdate = async (): Promise<InfoSchemaType> => {
-    return get({endpoint: 'info/latest', schema: InfoSchema});
+    return get({ endpoint: "info/latest", schema: InfoSchema });
   };
 
   // Возвращает массив записей с информацией приложения.
   const getAppUpdates = async (): Promise<InfoSchemaType[]> => {
-    return get({endpoint: 'info/', schema: z.array(InfoSchema)});
+    return get({ endpoint: "info/", schema: z.array(InfoSchema) });
   };
 
   // Создаем новую запись об обновлении приложения.
   const createAppUpdate = async (newUpdate: CreateInfoSchemaType): Promise<InfoSchemaType> => {
-    return post({endpoint: 'info/', body: newUpdate, schema: InfoSchema});;
+    return post({ endpoint: "info/", body: newUpdate, schema: InfoSchema });
   };
 
   // Авторизация пользователя в сервисе. метод на бэкенде возвращает два токена.
   const signIn = async (user: UserAuthSchemaType): Promise<boolean> => {
-    const tokens = await post({endpoint: 'api/auth/sign_in', body: user})
+    const tokens = await post({ endpoint: "api/auth/sign_in", body: user });
     await setupTokens(tokens);
     return true;
   };
 
   // Регистрация пользователя в сервисе.
   const signUp = async (user: CreateUserSchemaType): Promise<boolean> => {
-    const tokens = await post({endpoint: 'api/auth/sign_up', body: user});
+    const tokens = await post({ endpoint: "api/auth/sign_up", body: user });
     await setupTokens(tokens);
     return true;
   };
 
   // Логаут. Пока для нас будет достаточно удалить токены.
   const signOut = async (): Promise<boolean> => {
-    Cookies.remove('accessToken');
-    Cookies.remove('refreshToken');
+    Cookies.remove("accessToken");
+    Cookies.remove("refreshToken");
     return true;
-  }
+  };
 
   // Получение данных пользователя.
   const getUserData = async (): Promise<UserDataSchemaType> => {
-    return get({endpoint: 'api/user', schema: UserDataSchema, auth: true})
-  }
+    return get({ endpoint: "api/user", schema: UserDataSchema, auth: true });
+  };
 
-  return { getAppUpdates, getAppLatestUpdate, createAppUpdate, signIn, signUp, signOut, getUserData };
+  return {
+    getAppUpdates,
+    getAppLatestUpdate,
+    createAppUpdate,
+    signIn,
+    signUp,
+    signOut,
+    getUserData,
+  };
 };
 
 export const apiClient = createApiClient(config.VITE_BACKEND_URL);

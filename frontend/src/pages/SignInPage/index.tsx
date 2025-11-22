@@ -1,3 +1,4 @@
+import { useAppContext } from "../../contexts/AppContext/context";
 import { apiClient } from "../../core/apiClient";
 import { UserAuthSchema } from "../../core/schemas";
 import { routes } from "../routes";
@@ -6,7 +7,6 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { withZodSchema } from "formik-validator-zod";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAppContext } from "../../contexts/AppContext/context";
 
 
 export const SignInPage = () => {

@@ -1,27 +1,26 @@
-@import '../../styles/vars';
-
+@import "../../styles/vars";
 
 .layout {
+  display: flex;
+  justify-content: space-between;
+  background-color: $excel-green;
+  padding: 0.5rem 0.5rem 0;
+
+  .side {
     display: flex;
-    justify-content: space-between;
-    background-color: $excelGreen;
-    padding: 0.5rem 0.5rem 0 0.5rem;
 
-    .side {
-        display: flex;
-
-        .link-active {
-            color: $excelGreen;
-            background-color: $excelWhite;
-        }
+    .link-active {
+      color: $excel-green;
+      background-color: $excel-white;
     }
+  }
 
-    .side > * {
-        padding: 0.6rem;
-    }
+  .side > * {
+    padding: 0.6rem;
+  }
 
-    a {
-        font-weight: bolder;
-        color: $excelWhite;
-    }
+  a {
+    font-weight: bolder;
+    color: $excel-white;
+  }
 }
