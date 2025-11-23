@@ -16,25 +16,15 @@ export const UserAuthSchema = z.object({
 
 export type UserAuthSchemaType = z.infer<typeof UserAuthSchema>;
 
-type ServerAccessTokenSchema = {
-  access_token: string;
-  token_type: string;
-};
+export const AccessTokenSchema = z.object({
+  accessToken: z.string(),
+  tokenType: z.string(),
+});
 
-type ServerRefreshTokenSchema = {
-  refresh_token: string;
-  token_type: string;
-};
-
-export const AccessTokenSchema = z.transform((data: ServerAccessTokenSchema) => ({
-  accessToken: data.access_token,
-  tokenType: data.token_type,
-}));
-
-export const RefreshTokenSchema = z.transform((data: ServerRefreshTokenSchema) => ({
-  refreshToken: data.refresh_token,
-  tokenType: data.token_type,
-}));
+export const RefreshTokenSchema = z.object({
+  refreshToken: z.string(),
+  tokenType: z.string(),
+});
 
 export type AccessTokenSchemaTyype = z.infer<typeof AccessTokenSchema>;
 

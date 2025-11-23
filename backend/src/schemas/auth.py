@@ -25,7 +25,8 @@ class AuthUserSchema(BaseModel):
 class TokenDataSchema(BaseModel):
     """Схема токена"""
 
-    email: str
+    user_id: int
+    user_email: str
     exp: datetime
     type: str
 
@@ -33,12 +34,12 @@ class TokenDataSchema(BaseModel):
 class AccessTokenSchema(BaseModel):
     """Схема аксесс токена"""
 
-    access_token: str
-    token_type: str
+    accessToken: str  # Сразу используем camelCase и не будем вызывать какие-то трансформации.
+    tokenType: str
 
 
 class RefreshTokenSchema(BaseModel):
     """Схема рефреш токена"""
 
-    refresh_token: str
-    token_type: str
+    refreshToken: str
+    tokenType: str

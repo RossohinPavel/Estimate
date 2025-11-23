@@ -1,0 +1,15 @@
+.add-estimate-form {
+  display: flex;
+  gap: 0.5rem;
+
+  input {
+    width: 100%;
+    min-width: 20rem;
+  }
+
+  .actions {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}

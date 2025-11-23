@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class CreateInfoSchema(BaseModel):
@@ -13,5 +13,7 @@ class CreateInfoSchema(BaseModel):
 class InfoSchema(CreateInfoSchema):
     """JSON-схема для записи из таблицы Info"""
 
+    model_config = ConfigDict(populate_by_name=True)
+
     id: int
-    created_at: datetime
+    created_at: datetime = Field(alias="createdAt")

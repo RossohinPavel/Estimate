@@ -14,7 +14,7 @@ def get_password_hash(password: str) -> str:
     return hashlib.sha256(salted_password.encode()).hexdigest()
 
 
-def create_token(email: str, created_at: datetime, _type: str) -> str:
+def create_token(user_id: int, user_email: str, created_at: datetime, _type: str) -> str:
     """Создаем токен"""
     match _type:
         case "refresh":
@@ -23,7 +23,7 @@ def create_token(email: str, created_at: datetime, _type: str) -> str:
         case "access" | _:
             secret = settings.JWT_ACCESS_TOKEN_SECRET
             expires_at = created_at + timedelta(minutes=settings.JWT_ACCESS_TOKEN_EXPIRE_MINUTES)
-    payload = {"email": email, "exp": expires_at, "type": _type}
+    payload = {"user_id": user_id, "user_email": user_email, "exp": expires_at, "type": _type}
     return jwt.encode(payload, secret, algorithm=settings.JWT_ALGORITHM)
 
 
@@ -40,6 +40,8 @@ def parse_token(token: str, _type: Literal["access", "refresh"] = "access") -> T
         raise ValueError("Invalid token")
     if payload.get("type", None) != _type:
         raise ValueError("Invalid token type")
-    if payload.get("email", None) is None:
+    user_id = payload.get("user_id", None)
+    user_email = payload.get("user_email", None)
+    if not user_id or not user_email:
         raise ValueError("Invalid token")
     return TokenDataSchema.model_validate(payload)

@@ -1,8 +1,8 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 
 from src.core import get_base_session
-from src.orm import UserRepository
 from src.schemas import TokenDataSchema, UserSchema
+from src.utils.get_user_or_error import get_user_from_token_or_error
 
 from .middleware import validate_token
 
@@ -15,8 +15,4 @@ async def get_user(
     token: TokenDataSchema = Depends(validate_token()), session=Depends(get_base_session)
 ):
     """Получение информации о пользователе"""
-    repo = UserRepository(session)
-    user = await repo.get_user(token.email)
-    if user is None:
-        raise HTTPException(404, "User not found")
-    return user
+    return await get_user_from_token_or_error(token, session)

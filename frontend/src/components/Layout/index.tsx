@@ -21,7 +21,7 @@ export const Layout = () => {
             Главная
           </NavLink>
           <NavLink to={routes.getEstimatesPage()} className={getActiveStyle}>
-            Мои сметы
+            Сметы
           </NavLink>
           <NavLink to={routes.getTemplatesPage()} className={getActiveStyle}>
             Шаблоны

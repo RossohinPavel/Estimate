@@ -28,7 +28,7 @@ export const AboutPage = () => {
       {data?.map((info) => (
         <div key={info.id}>
           <h3>
-            {info.created_at.toLocaleDateString()} - {info.title}
+            {info.createdAt.toLocaleDateString()} - {info.title}
           </h3>
           <p>{info.content}</p>
           <br />

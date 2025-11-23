@@ -125,6 +125,8 @@ export const createApiClient = (baseUrl: string) => {
     return get({ endpoint: "api/user", schema: UserDataSchema, auth: true });
   };
 
+  // const createEstimate = async (newEstimate: ): Promise<EstimateSchemaType> => {}
+
   return {
     getAppUpdates,
     getAppLatestUpdate,

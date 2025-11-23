@@ -28,10 +28,10 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
   }, [setUser]);
 
   useEffect(() => {
-    if (Cookies.get("accessToken")) {
+    if (user === null && Cookies.get("accessToken")) {
       setUserData();
     }
-  });
+  }, [user, setUser, setUserData]);
 
   const signOut = useCallback(() => {
     setUser(null);

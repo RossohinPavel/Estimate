@@ -24,7 +24,7 @@ export const MainPage = () => {
       <h2>Последнее обновлене</h2>
       <div key={data!.id}>
         <h3>
-          {data!.created_at.toLocaleDateString()} - {data!.title}
+          {data!.createdAt.toLocaleDateString()} - {data!.title}
         </h3>
         <p>{data!.content}</p>
       </div>
