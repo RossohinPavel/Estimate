@@ -3,14 +3,33 @@ import type { AddEstimateFormProps } from "./types";
 import { CreateEstimateSchema } from "../../core/schemas/estimate";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { withZodSchema } from "formik-validator-zod";
+import { useMutation } from "@tanstack/react-query";
+import { apiClient } from "../../core/apiClient";
+import { useNavigate } from "react-router-dom";
+import { routes } from "../../pages";
 
 
-export const AddEstimateForm = ({ setShowForm }: AddEstimateFormProps) => {
+export const AddEstimateForm = ({ setShowForm, refetch }: AddEstimateFormProps) => {
+
+  const createEstimateMutation = useMutation({
+    mutationFn: apiClient.createEstimate,
+    onSuccess: (data) => {
+      console.info("Estimate succesful create. Id =", data.id);
+      setShowForm(false);
+      refetch()
+    },
+    onError: (error) => {
+      console.error("Error while creating estimate:", error.message);
+    }
+  });
+
   return (
     <div>
       <Formik
         initialValues={{ title: "" }}
-        onSubmit={(values) => console.info(values)}
+        onSubmit={(data, { resetForm }) => {
+          createEstimateMutation.mutateAsync(data).then(() => resetForm());
+        }}
         validate={withZodSchema(CreateEstimateSchema) as (v: unknown) => object}
       >
         <Form className={css["add-estimate-form"]}>

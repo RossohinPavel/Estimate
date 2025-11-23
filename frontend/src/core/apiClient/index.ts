@@ -1,9 +1,11 @@
 import type { RequestPropsType, PostRequestPropsType, GetRequestPropsType } from "./types";
 import { config } from "../config";
-import { InfoSchema, TokensArraySchema, UserDataSchema } from "../schemas";
+import { EstimateSchema, InfoSchema, TokensArraySchema, UserDataSchema } from "../schemas";
 import type {
+  CreateEstimateSchemaType,
   CreateInfoSchemaType,
   CreateUserSchemaType,
+  EstimateSchemaType,
   InfoSchemaType,
   UserAuthSchemaType,
   UserDataSchemaType,
@@ -125,7 +127,14 @@ export const createApiClient = (baseUrl: string) => {
     return get({ endpoint: "api/user", schema: UserDataSchema, auth: true });
   };
 
-  // const createEstimate = async (newEstimate: ): Promise<EstimateSchemaType> => {}
+  // Получение смет пользователя.
+  const getEstimates = async (): Promise<EstimateSchemaType[]> => {
+    return get({endpoint: "api/estimate/", schema: z.array(EstimateSchema), auth: true})
+  }
+
+  const createEstimate = async (data: CreateEstimateSchemaType): Promise<EstimateSchemaType> => {
+    return post({endpoint: 'api/estimate/', body: data, schema: EstimateSchema, auth: true})
+  }
 
   return {
     getAppUpdates,
@@ -135,6 +144,8 @@ export const createApiClient = (baseUrl: string) => {
     signUp,
     signOut,
     getUserData,
+    getEstimates,
+    createEstimate,
   };
 };
 

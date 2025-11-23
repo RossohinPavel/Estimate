@@ -11,4 +11,7 @@ export const EstimateSchema = z.object({
   id: z.number(),
   title: z.string(),
   createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
 });
+
+export type EstimateSchemaType = z.infer<typeof EstimateSchema>;
