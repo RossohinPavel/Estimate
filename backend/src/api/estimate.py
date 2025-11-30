@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 
 from src.core import get_base_session
 from src.orm import EstimateRepository
@@ -8,6 +8,18 @@ from .middleware import validate_token
 
 
 router = APIRouter(prefix="/estimate")
+
+
+@router.get("/{id}", status_code=200, response_model=EstimateSchema)
+async def get_estimate(
+    id: int, token: TokenDataSchema = Depends(validate_token()), session=Depends(get_base_session)
+):
+    """Получение сметы по ид"""
+    repo = EstimateRepository(session)
+    estimate = await repo.get_estimate(id, token.user_id)
+    if estimate is None:
+        raise HTTPException(404, "Estimate not found.")
+    return estimate
 
 
 @router.get("/", status_code=200, response_model=list[EstimateSchema])

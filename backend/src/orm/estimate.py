@@ -18,6 +18,11 @@ class EstimateRepository(BaseRepository):
         await self.session.commit()
         return estimate
 
+    async def get_estimate(self, estimate_id: int, user_id: int) -> Estimate | None:
+        """Получение сметы по ид."""
+        stmt = select(Estimate).where(Estimate.id == estimate_id).where(Estimate.user_id == user_id)
+        return await self.session.scalar(stmt)
+
     async def get_estimates(self, user_id: int) -> Sequence[Estimate]:
         """Получить сметы пользователя."""
         stmt = select(Estimate).where(Estimate.user_id == user_id)

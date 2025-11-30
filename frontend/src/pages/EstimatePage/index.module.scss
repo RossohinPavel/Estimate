@@ -1,0 +1,10 @@
+.estimate-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.estimate-page > div {
+  width: min(100%, 1200px);
+}

@@ -1,0 +1,46 @@
+.estimate-header {
+  margin: 0.5rem 0;
+
+  .about {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    .textarea {
+      min-width: 280px;
+      resize: none;
+    }
+  }
+
+  .agree-approved {
+    display: flex;
+    width: 100%;
+    margin: 1rem 0;
+
+    .line {
+      width: 100%;
+    }
+
+    input {
+      min-width: min(100%, 300px);
+    }
+  }
+
+  .meta {
+    display: flex;
+  }
+
+  .meta :first-child {
+    min-width: min(100%, 300px);
+  }
+
+  .meta :last-child {
+    width: 100%;
+  }
+
+  .meta > * {
+    outline: 2px solid #33333320;
+    margin: 1px;
+    padding: 2px;
+  }
+}

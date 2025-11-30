@@ -129,12 +129,16 @@ export const createApiClient = (baseUrl: string) => {
 
   // Получение смет пользователя.
   const getEstimates = async (): Promise<EstimateSchemaType[]> => {
-    return get({endpoint: "api/estimate/", schema: z.array(EstimateSchema), auth: true})
-  }
+    return get({ endpoint: "api/estimate/", schema: z.array(EstimateSchema), auth: true });
+  };
 
   const createEstimate = async (data: CreateEstimateSchemaType): Promise<EstimateSchemaType> => {
-    return post({endpoint: 'api/estimate/', body: data, schema: EstimateSchema, auth: true})
-  }
+    return post({ endpoint: "api/estimate/", body: data, schema: EstimateSchema, auth: true });
+  };
+
+  const getEstimate = async (id: string): Promise<EstimateSchemaType> => {
+    return get({ endpoint: `api/estimate/${id}`, schema: EstimateSchema, auth: true });
+  };
 
   return {
     getAppUpdates,
@@ -146,6 +150,7 @@ export const createApiClient = (baseUrl: string) => {
     getUserData,
     getEstimates,
     createEstimate,
+    getEstimate,
   };
 };
 
