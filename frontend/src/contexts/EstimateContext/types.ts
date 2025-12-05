@@ -3,10 +3,11 @@ import type { ReactNode } from "react";
 
 
 export interface EstimateProviderProps {
-  estimate: EstimateSchemaType;
+  data: EstimateSchemaType;
   children: ReactNode;
 }
 
 export interface EstimateContextType {
   estimate: EstimateSchemaType;
+  setEstimate: (estimate: EstimateSchemaType) => void;
 }

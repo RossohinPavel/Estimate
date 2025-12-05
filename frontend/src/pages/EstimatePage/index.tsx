@@ -28,7 +28,7 @@ export const EstimatePage = () => {
 
   return (
     <div className={css["estimate-page"]}>
-      <EstimateContextProvider estimate={data}>
+      <EstimateContextProvider data={data}>
         <EstimateHeader />
         <EstimateBody />
         <EstimateFooter />

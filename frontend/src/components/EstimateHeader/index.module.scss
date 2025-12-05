@@ -30,6 +30,14 @@
     display: flex;
   }
 
+  .meta input {
+    border: none;
+  }
+
+  .meta input:focus {
+    outline: 2px solid #33333390;
+  }
+
   .meta :first-child {
     min-width: min(100%, 300px);
   }
@@ -41,6 +49,6 @@
   .meta > * {
     outline: 2px solid #33333320;
     margin: 1px;
-    padding: 2px;
+    padding: 0.2rem;
   }
 }
