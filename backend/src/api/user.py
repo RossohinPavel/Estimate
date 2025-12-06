@@ -7,7 +7,7 @@ from src.utils.get_user_or_error import get_user_from_token_or_error
 from .middleware import validate_token
 
 
-router = APIRouter(prefix="/user")
+router = APIRouter(prefix="/user", tags=["user"])
 
 
 @router.get("", response_model=UserSchema)

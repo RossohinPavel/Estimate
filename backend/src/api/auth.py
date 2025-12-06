@@ -15,7 +15,7 @@ from src.utils.logger import logger
 from .middleware import validate_token
 
 
-router = APIRouter(prefix="/auth")
+router = APIRouter(prefix="/auth", tags=["auth"])
 
 
 tokens_response = tuple[RefreshTokenSchema, AccessTokenSchema]

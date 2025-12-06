@@ -15,6 +15,10 @@ class Estimate(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey("Users.id", ondelete="CASCADE"))
     # Непосредственно, информация о смете
     title: Mapped[str] = mapped_column(String(100))
+    description: Mapped[str] = mapped_column(String(255), server_default="")
+    project: Mapped[str] = mapped_column(String(100), server_default="")
+    based_on: Mapped[str] = mapped_column(String(100), server_default="")
+    # Временные метки
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()

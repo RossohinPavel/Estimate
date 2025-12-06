@@ -2,12 +2,12 @@ from fastapi import APIRouter, Depends, HTTPException
 
 from src.core import get_base_session
 from src.orm import EstimateRepository
-from src.schemas import CreateEstimateSchema, EstimateSchema, TokenDataSchema
+from src.schemas import CreateEstimateSchema, EstimateSchema, TokenDataSchema, UpdateEstimateSchema
 
 from .middleware import validate_token
 
 
-router = APIRouter(prefix="/estimate")
+router = APIRouter(prefix="/estimate", tags=["estimate"])
 
 
 @router.get("/{id}", status_code=200, response_model=EstimateSchema)
@@ -40,3 +40,19 @@ async def create_estimate(
     """Создание новой сметы"""
     repo = EstimateRepository(session)
     return await repo.create_estimate(estimate, token.user_id)
+
+
+@router.patch("/{id}", status_code=204)
+async def update_estimate(
+    id: int,
+    estimate: UpdateEstimateSchema,
+    token: TokenDataSchema = Depends(validate_token()),
+    session=Depends(get_base_session),
+):
+    """Обновление сметы"""
+    if not estimate._initialized_fields:
+        raise HTTPException(400, "No fields were provided in the request")
+    repo = EstimateRepository(session)
+    result = await repo.update_estimate(id, token.user_id, estimate)
+    if not result:
+        raise HTTPException(404, "Not found.")

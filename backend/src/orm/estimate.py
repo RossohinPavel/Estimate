@@ -1,9 +1,9 @@
 from collections.abc import Sequence
 
-from sqlalchemy import select
+from sqlalchemy import select, update
 
 from src.models import Estimate
-from src.schemas import CreateEstimateSchema
+from src.schemas import CreateEstimateSchema, UpdateEstimateSchema
 
 from ._base import BaseRepository
 
@@ -17,6 +17,20 @@ class EstimateRepository(BaseRepository):
         self.session.add(estimate)
         await self.session.commit()
         return estimate
+
+    async def update_estimate(
+        self, estimate_id: int, user_id: int, estimate: UpdateEstimateSchema
+    ) -> int:
+        """Обновление сметы в базе данных. Возвращает количество обновленных строк."""
+        stmt = (
+            update(Estimate)
+            .where(Estimate.id == estimate_id)
+            .where(Estimate.user_id == user_id)
+            .values(**estimate.get_initialized_fields())
+        )
+        result = await self.session.execute(stmt)
+        await self.session.commit()
+        return result.rowcount  # type: ignore
 
     async def get_estimate(self, estimate_id: int, user_id: int) -> Estimate | None:
         """Получение сметы по ид."""
