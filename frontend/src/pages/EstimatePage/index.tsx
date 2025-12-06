@@ -17,6 +17,7 @@ export const EstimatePage = () => {
       return await apiClient.getEstimate(estimateId);
     },
     retry: false,
+    refetchOnWindowFocus: false,
   });
 
   if (isError) {

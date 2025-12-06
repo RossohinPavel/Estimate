@@ -1,7 +1,7 @@
 import type z from "zod";
 
 
-type BodyType = Record<string, string | number | boolean | null | BodyType[]>;
+type BodyType = Record<string, string | number | boolean | null | Date | BodyType[]>;
 
 export type RequestPropsType<T> = {
   endpoint: string;

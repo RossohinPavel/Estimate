@@ -7,18 +7,18 @@ export const CreateEstimateSchema = z.object({
 
 export type CreateEstimateSchemaType = z.infer<typeof CreateEstimateSchema>;
 
-export const UpdateEstimateSchema = z.object({
-  title: z.string().min(1).max(100).trim().optional(),
-  object: z.string().min(1).max(100).trim().optional(),
-});
-
-export type UpdateEstimateSchemaType = z.infer<typeof UpdateEstimateSchema>;
-
 export const EstimateSchema = z.object({
   id: z.number(),
   title: z.string(),
+  description: z.string(),
+  project: z.string(),
+  basedOn: z.string(),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
 });
 
 export type EstimateSchemaType = z.infer<typeof EstimateSchema>;
+
+export const UpdateEstimateSchema = EstimateSchema.partial();
+
+export type UpdateEstimateSchemaType = z.infer<typeof UpdateEstimateSchema>;

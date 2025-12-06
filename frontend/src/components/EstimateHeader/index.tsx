@@ -1,5 +1,6 @@
 import css from "./index.module.scss";
 import { useEstimateContext } from "../../contexts/EstimateContext/context";
+import { apiClient } from "../../core/apiClient";
 import { AutoSaveInput } from "../AutoSaveInput";
 import { useCallback } from "react";
 
@@ -7,10 +8,16 @@ import { useCallback } from "react";
 export const EstimateHeader = () => {
   const { estimate } = useEstimateContext();
 
-  const updateEstimateMetaInfo = useCallback((key: string, value: string) => {
-    const data = { [key]: value };
-    console.info("[Debounced] - Attr updated", data);
-  }, []);
+  const updateEstimateInfo = useCallback(
+    (key: string, value: unknown) => {
+      const data = { [key]: value };
+      apiClient
+        .updateEstimate(estimate.id, data)
+        .then(() => console.info("[Debounced] - Attr updated", data))
+        .catch((err) => console.error(err));
+    },
+    [estimate.id]
+  );
 
   return (
     <div className={css["estimate-header"]}>
@@ -35,15 +42,15 @@ export const EstimateHeader = () => {
       <div>
         <div className={css.meta}>
           <div>Смета</div>
-          <AutoSaveInput item={estimate} attr="title" onSave={updateEstimateMetaInfo} />
+          <AutoSaveInput type="text" item={estimate} attr="title" onSave={updateEstimateInfo} />
         </div>
         <div className={css.meta}>
           <div>Объект</div>
-          <input type="text" defaultValue="" />
+          <AutoSaveInput type="text" item={estimate} attr="project" onSave={updateEstimateInfo} />
         </div>
         <div className={css.meta}>
           <div>Основание</div>
-          <input type="text" defaultValue="" />
+          <AutoSaveInput type="text" item={estimate} attr="basedOn" onSave={updateEstimateInfo} />
         </div>
         <div className={css.meta}>
           <div>Сметная стоимость</div>

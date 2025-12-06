@@ -7,10 +7,9 @@ from pydantic import BaseModel, ConfigDict, Field, PrivateAttr
 class EstimateSchema(BaseModel):
     """JSON-схема для записи из таблицы Estimate"""
 
-    model_config = ConfigDict(populate_by_name=True)
+    model_config = ConfigDict(populate_by_name=True, extra="ignore")
 
     id: int
-    user_id: int = Field(alias="userId")
     title: str
     description: str
     project: str

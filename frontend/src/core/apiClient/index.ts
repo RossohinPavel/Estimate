@@ -7,6 +7,7 @@ import type {
   CreateUserSchemaType,
   EstimateSchemaType,
   InfoSchemaType,
+  UpdateEstimateSchemaType,
   UserAuthSchemaType,
   UserDataSchemaType,
 } from "../schemas";
@@ -22,7 +23,10 @@ export const createApiClient = (baseUrl: string) => {
 
   const _request = async (url: string, init: RequestInit): Promise<unknown> => {
     const response = await fetch(url, init);
-    const json = await response.json();
+    let json = null;
+    if (response.status !== 204) {
+      json = await response.json();
+    }
     if (!response.ok) {
       throw new Error(json.detail, { cause: response.status });
     }
@@ -86,6 +90,10 @@ export const createApiClient = (baseUrl: string) => {
     return request(props, { method: "POST" });
   };
 
+  const path = async <T>(props: PostRequestPropsType<T>): Promise<T> => {
+    return request(props, { method: "PATCH" });
+  };
+
   // Возвращает последнюю запись информации о приложении.
   const getAppLatestUpdate = async (): Promise<InfoSchemaType> => {
     return get({ endpoint: "info/latest", schema: InfoSchema });
@@ -136,8 +144,15 @@ export const createApiClient = (baseUrl: string) => {
     return post({ endpoint: "api/estimate/", body: data, schema: EstimateSchema, auth: true });
   };
 
-  const getEstimate = async (id: string): Promise<EstimateSchemaType> => {
+  const getEstimate = async (id: string | number): Promise<EstimateSchemaType> => {
     return get({ endpoint: `api/estimate/${id}`, schema: EstimateSchema, auth: true });
+  };
+
+  const updateEstimate = async (
+    id: string | number,
+    data: UpdateEstimateSchemaType
+  ): Promise<void> => {
+    return path({ endpoint: `api/estimate/${id}`, body: data, auth: true });
   };
 
   return {
@@ -151,6 +166,7 @@ export const createApiClient = (baseUrl: string) => {
     getEstimates,
     createEstimate,
     getEstimate,
+    updateEstimate,
   };
 };
 
