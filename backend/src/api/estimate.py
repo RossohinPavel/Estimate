@@ -1,8 +1,15 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 
 from src.core import get_base_session
 from src.orm import EstimateRepository
-from src.schemas import CreateEstimateSchema, EstimateSchema, TokenDataSchema, UpdateEstimateSchema
+from src.schemas import (
+    CreateEstimateSchema,
+    EstimateListResponseSchema,
+    EstimateSchema,
+    EstimatesRequestQuerySchema,
+    TokenDataSchema,
+    UpdateEstimateSchema,
+)
 
 from .middleware import validate_token
 
@@ -22,13 +29,21 @@ async def get_estimate(
     return estimate
 
 
-@router.get("/", status_code=200, response_model=list[EstimateSchema])
+@router.get("/", status_code=200, response_model=EstimateListResponseSchema)
 async def get_estimates(
-    token: TokenDataSchema = Depends(validate_token()), session=Depends(get_base_session)
+    q: EstimatesRequestQuerySchema = Query(),
+    token: TokenDataSchema = Depends(validate_token()),
+    session=Depends(get_base_session),
 ):
     """Получение списка смет пользователя"""
     repo = EstimateRepository(session)
-    return await repo.get_estimates(token.user_id)
+    total = await repo.get_estimates_count(token.user_id)
+    _next = q.offset + q.limit
+    if _next > total:
+        _next = total
+    estiamtes = await repo.get_estimates(token.user_id, q)
+    schemas = [EstimateSchema.model_validate(e, from_attributes=True) for e in estiamtes]
+    return EstimateListResponseSchema(next=_next, total=total, estimates=schemas)
 
 
 @router.post("/", status_code=201, response_model=EstimateSchema)

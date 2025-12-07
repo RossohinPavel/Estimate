@@ -1,9 +1,9 @@
 from collections.abc import Sequence
 
-from sqlalchemy import select, update
+from sqlalchemy import asc, desc, func, select, update
 
 from src.models import Estimate
-from src.schemas import CreateEstimateSchema, UpdateEstimateSchema
+from src.schemas import CreateEstimateSchema, EstimatesRequestQuerySchema, UpdateEstimateSchema
 
 from ._base import BaseRepository
 
@@ -37,8 +37,24 @@ class EstimateRepository(BaseRepository):
         stmt = select(Estimate).where(Estimate.id == estimate_id).where(Estimate.user_id == user_id)
         return await self.session.scalar(stmt)
 
-    async def get_estimates(self, user_id: int) -> Sequence[Estimate]:
+    async def get_estimates(
+        self, user_id: int, q: EstimatesRequestQuerySchema
+    ) -> Sequence[Estimate]:
         """Получить сметы пользователя."""
-        stmt = select(Estimate).where(Estimate.user_id == user_id)
+        order = asc if q.order == "asc" else desc
+        field = getattr(Estimate, q.sort)
+        stmt = (
+            select(Estimate)
+            .where(Estimate.user_id == user_id)
+            .order_by(order(field))
+            .limit(q.limit)
+            .offset(q.offset)
+        )
         result = await self.session.scalars(stmt)
         return result.fetchall()
+
+    async def get_estimates_count(self, user_id: int) -> int:
+        """Получаем количество смет пользователя."""
+        stmt = select(func.count()).select_from(Estimate).where(Estimate.user_id == user_id)
+        result = await self.session.scalar(stmt)
+        return 0 if result is None else result
