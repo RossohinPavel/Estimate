@@ -1,33 +1,25 @@
-import { apiClient } from "../../core/apiClient";
-import { useQuery } from "@tanstack/react-query";
+import { AppLatestInfo } from "./AppLatestInfo";
+import css from "./index.module.scss";
+import { LastEditedEstimates } from "./LastEditedEstimates";
+import { useAppContext } from "../../contexts/AppContext/context";
 
 
 export const MainPage = () => {
-  const { data, isLoading, error, isError } = useQuery({
-    queryKey: ["appLatestUpdate"],
-    queryFn: apiClient.getAppLatestUpdate,
-    staleTime: 60 * 60 * 1000,
-    gcTime: 60 * 60 * 1000,
-    retry: false,
-  });
-
-  if (isLoading) {
-    return <>Loading...</>;
-  }
-
-  if (isError) {
-    return <>Error: {error.message}</>;
-  }
+  const { user } = useAppContext();
 
   return (
-    <div>
-      <h2>Последнее обновлене</h2>
-      <div key={data!.id}>
-        <h3>
-          {data!.createdAt.toLocaleDateString()} - {data!.title}
-        </h3>
-        <p>{data!.content}</p>
+    <div className={css["main-page"]}>
+      <div className={css.tabs}>
+        <button>Последние</button>
+        <button>Избранные</button>
       </div>
+      {user !== null && (
+        <>
+          <LastEditedEstimates />
+          <hr />
+        </>
+      )}
+      <AppLatestInfo />
     </div>
   );
 };

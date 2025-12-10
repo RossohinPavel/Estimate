@@ -27,12 +27,12 @@ const EstimatesPageData = ({ user }: { user: UserDataSchemaType }) => {
     if (isLoading || data === undefined) {
       return <>Loading...</>;
     }
-    return data.map((estimate) => (
+    return data.estimates.map((estimate) => (
       <div key={estimate.id}>
         <h3>
           <NavLink to={routes.getEstimatePage(String(estimate.id))}>{estimate.title}</NavLink>
         </h3>
-        <p>{estimate.createdAt.toLocaleDateString()}</p>
+        <p>{estimate.updatedAt.toLocaleDateString()}</p>
       </div>
     ));
   }, [data, isLoading, error, isError]);

@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from .estimate import EstimateSchema
+from .estimate import EstimateLESchema
 
 
 class EstimateListResponseSchema(BaseModel):
@@ -8,4 +8,4 @@ class EstimateListResponseSchema(BaseModel):
 
     next: int
     total: int
-    estimates: list[EstimateSchema]
+    estimates: list[EstimateLESchema]

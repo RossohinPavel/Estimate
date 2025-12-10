@@ -19,6 +19,14 @@ export const EstimateSchema = z.object({
 
 export type EstimateSchemaType = z.infer<typeof EstimateSchema>;
 
+export const EstimateLESchema = z.object({
+  id: z.number(),
+  title: z.string(),
+  updatedAt: z.coerce.date(),
+});
+
+export type EstimateLESchemaType = z.infer<typeof EstimateLESchema>;
+
 export const UpdateEstimateSchema = EstimateSchema.partial();
 
 export type UpdateEstimateSchemaType = z.infer<typeof UpdateEstimateSchema>;

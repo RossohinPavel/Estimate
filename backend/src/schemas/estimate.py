@@ -4,18 +4,23 @@ from typing import Any
 from pydantic import BaseModel, ConfigDict, Field, PrivateAttr
 
 
-class EstimateSchema(BaseModel):
-    """JSON-схема для записи из таблицы Estimate"""
+class EstimateLESchema(BaseModel):
+    """JSON - схема для списочного ответа по информации схемам."""
 
     model_config = ConfigDict(populate_by_name=True, extra="ignore")
 
     id: int
     title: str
+    updated_at: datetime = Field(alias="updatedAt")
+
+
+class EstimateSchema(EstimateLESchema):
+    """JSON-схема для записи из таблицы Estimate"""
+
     description: str
     project: str
     based_on: str = Field(alias="basedOn")
     created_at: datetime = Field(alias="createdAt")
-    updated_at: datetime = Field(alias="updatedAt")
 
 
 class UpdateEstimateSchema(BaseModel):

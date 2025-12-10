@@ -1,6 +1,7 @@
 from collections.abc import Sequence
+from datetime import datetime
 
-from sqlalchemy import asc, desc, func, select, update
+from sqlalchemy import Row, asc, desc, func, select, update
 
 from src.models import Estimate
 from src.schemas import CreateEstimateSchema, EstimatesRequestQuerySchema, UpdateEstimateSchema
@@ -39,19 +40,18 @@ class EstimateRepository(BaseRepository):
 
     async def get_estimates(
         self, user_id: int, q: EstimatesRequestQuerySchema
-    ) -> Sequence[Estimate]:
-        """Получить сметы пользователя."""
+    ) -> Sequence[Row[tuple[int, str, datetime]]]:
+        """Получение списка информаций по сметам."""
         order = asc if q.order == "asc" else desc
-        field = getattr(Estimate, q.sort)
         stmt = (
-            select(Estimate)
+            select(Estimate.id, Estimate.title, Estimate.updated_at)
             .where(Estimate.user_id == user_id)
-            .order_by(order(field))
+            .order_by(order(Estimate.updated_at))
             .limit(q.limit)
             .offset(q.offset)
         )
-        result = await self.session.scalars(stmt)
-        return result.fetchall()
+        result = await self.session.execute(stmt)
+        return result.all()
 
     async def get_estimates_count(self, user_id: int) -> int:
         """Получаем количество смет пользователя."""

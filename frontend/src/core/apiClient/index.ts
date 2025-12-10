@@ -11,6 +11,10 @@ import type {
   UserAuthSchemaType,
   UserDataSchemaType,
 } from "../schemas";
+import {
+  EstimateListResponseSchema,
+  type EstimateListResponseSchemaType,
+} from "../schemas/responses";
 import Cookies from "js-cookie";
 import z from "zod";
 
@@ -136,8 +140,8 @@ export const createApiClient = (baseUrl: string) => {
   };
 
   // Получение смет пользователя.
-  const getEstimates = async (): Promise<EstimateSchemaType[]> => {
-    return get({ endpoint: "api/estimate/", schema: z.array(EstimateSchema), auth: true });
+  const getEstimates = async (): Promise<EstimateListResponseSchemaType> => {
+    return get({ endpoint: "api/estimate/", schema: EstimateListResponseSchema, auth: true });
   };
 
   const createEstimate = async (data: CreateEstimateSchemaType): Promise<EstimateSchemaType> => {

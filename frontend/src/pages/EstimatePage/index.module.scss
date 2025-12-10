@@ -1,3 +1,5 @@
+@import "../../styles/vars";
+
 .estimate-page {
   display: flex;
   flex-direction: column;
@@ -6,5 +8,5 @@
 }
 
 .estimate-page > div {
-  width: min(100%, 1200px);
+  width: $common-width;
 }

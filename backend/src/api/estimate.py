@@ -4,6 +4,7 @@ from src.core import get_base_session
 from src.orm import EstimateRepository
 from src.schemas import (
     CreateEstimateSchema,
+    EstimateLESchema,
     EstimateListResponseSchema,
     EstimateSchema,
     EstimatesRequestQuerySchema,
@@ -42,7 +43,7 @@ async def get_estimates(
     if _next > total:
         _next = total
     estiamtes = await repo.get_estimates(token.user_id, q)
-    schemas = [EstimateSchema.model_validate(e, from_attributes=True) for e in estiamtes]
+    schemas = [EstimateLESchema.model_validate(e, from_attributes=True) for e in estiamtes]
     return EstimateListResponseSchema(next=_next, total=total, estimates=schemas)
 
 

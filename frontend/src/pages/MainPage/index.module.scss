@@ -1,0 +1,30 @@
+@import "../../styles/vars";
+
+.main-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.main-page > div {
+  width: $common-width;
+}
+
+.tabs {
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.estimates {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.estimate {
+  width: 230px;
+  padding: 0.5rem;
+  border: 1px solid #6e6e6e;
+  border-radius: 5px;
+}
