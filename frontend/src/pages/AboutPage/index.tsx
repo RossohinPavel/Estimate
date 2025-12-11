@@ -7,8 +7,6 @@ export const AboutPage = () => {
   const { data, isLoading, error, isError } = useQuery({
     queryKey: ["appUpdates"],
     queryFn: apiClient.getAppUpdates,
-    staleTime: 60 * 60 * 1000,
-    gcTime: 60 * 60 * 1000,
   });
 
   if (isLoading || data === undefined) {

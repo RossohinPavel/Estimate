@@ -1,14 +1,8 @@
 @import "../../styles/vars";
+@import "../../styles/mixins";
 
 .main-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-.main-page > div {
-  width: $common-width;
+  @include common-placement;
 }
 
 .tabs {

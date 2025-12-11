@@ -8,9 +8,6 @@ export const LastEditedEstimates = () => {
   const { data, isLoading, error, isError } = useQuery({
     queryKey: ["LatestEstimates"],
     queryFn: apiClient.getEstimates,
-    staleTime: 60 * 60 * 1000,
-    gcTime: 60 * 60 * 1000,
-    retry: false,
   });
 
   if (isError) {

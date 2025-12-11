@@ -15,9 +15,6 @@ const EstimatesPageData = ({ user }: { user: UserDataSchemaType }) => {
   const { data, isLoading, error, isError, refetch } = useQuery({
     queryKey: ["estimates", user],
     queryFn: apiClient.getEstimates,
-    staleTime: 60 * 60 * 1000,
-    gcTime: 60 * 60 * 1000,
-    retry: false,
   });
 
   const estimatesList = useMemo(() => {
@@ -28,7 +25,7 @@ const EstimatesPageData = ({ user }: { user: UserDataSchemaType }) => {
       return <>Loading...</>;
     }
     return data.estimates.map((estimate) => (
-      <div key={estimate.id}>
+      <div key={estimate.id} className={css.estimate}>
         <h3>
           <NavLink to={routes.getEstimatePage(String(estimate.id))}>{estimate.title}</NavLink>
         </h3>
@@ -38,7 +35,7 @@ const EstimatesPageData = ({ user }: { user: UserDataSchemaType }) => {
   }, [data, isLoading, error, isError]);
 
   return (
-    <div>
+    <>
       <div className={css.actions}>
         <button onClick={() => setShowForm(!showForm)} disabled={showForm}>
           Добавить
@@ -50,16 +47,20 @@ const EstimatesPageData = ({ user }: { user: UserDataSchemaType }) => {
         {showForm && <AddEstimateForm setShowForm={setShowForm} refetch={refetch} />}
         {estimatesList}
       </div>
-    </div>
+    </>
   );
 };
 
 export const EstimatesPage = () => {
   const { user } = useAppContext();
 
-  return user !== null ? (
-    <EstimatesPageData user={user} />
-  ) : (
-    <>Зарегистрируйтесь, чтобы пользоваться приложением.</>
+  return (
+    <div className={css["estimates-page"]}>
+      {user !== null ? (
+        <EstimatesPageData user={user} />
+      ) : (
+        <>Зарегистрируйтесь, чтобы пользоваться приложением</>
+      )}
+    </div>
   );
 };

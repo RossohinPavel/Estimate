@@ -6,9 +6,6 @@ export const AppLatestInfo = () => {
   const { data, isLoading, error, isError } = useQuery({
     queryKey: ["appLatestUpdate"],
     queryFn: apiClient.getAppLatestUpdate,
-    staleTime: 60 * 60 * 1000,
-    gcTime: 60 * 60 * 1000,
-    retry: false,
   });
 
   if (isLoading) {

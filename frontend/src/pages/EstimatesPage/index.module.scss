@@ -1,3 +1,5 @@
+@import "../../styles/mixins";
+
 .actions {
   display: flex;
   gap: 0.5rem;
@@ -9,4 +11,15 @@
   flex-direction: column;
   gap: 0.5rem;
   padding: 0.5rem;
+}
+
+.estimates-page {
+  @include common-placement;
+}
+
+.estimate {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #6e6e6e;
+  border-radius: 5px;
 }
