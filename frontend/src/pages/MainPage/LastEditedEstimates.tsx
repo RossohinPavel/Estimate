@@ -21,7 +21,7 @@ export const LastEditedEstimates = () => {
   return (
     <div className={css.estimates}>
       {data.estimates.map((e) => (
-        <EstimateCardMini estimate={e} />
+        <EstimateCardMini key={e.id} estimate={e} />
       ))}
     </div>
   );

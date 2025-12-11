@@ -6,10 +6,10 @@ import { NavLink } from "react-router-dom";
 
 
 const EstimateCardMiniC = ({ estimate }: { estimate: EstimateLESchemaType }) => {
-  const { id, title, updatedAt } = estimate;
+  const { title, updatedAt } = estimate;
 
   return (
-    <div key={id} className={css.estimate}>
+    <div className={css.estimate}>
       <h3>
         <NavLink to={routes.getEstimatePage(String(estimate.id))}>{title}</NavLink>
       </h3>
