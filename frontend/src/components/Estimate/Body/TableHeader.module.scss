@@ -1,0 +1,74 @@
+@mixin flex-param {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  outline: 2px solid #33333320;
+  margin: 1px;
+  padding: 0.2rem;
+}
+
+.table-header {
+  display: flex;
+  align-items: stretch;
+
+  > div {
+    justify-content: space-around;
+  }
+
+  .number {
+    @include flex-param;
+
+    width: 50px;
+  }
+
+  .name {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    outline: 2px solid #33333320;
+    margin: 1px;
+  }
+
+  .meas {
+    @include flex-param;
+
+    width: 80px;
+  }
+
+  .qty {
+    @include flex-param;
+
+    width: 80px;
+  }
+
+  .material {
+    @include flex-param;
+
+    flex-direction: column;
+    width: 180px;
+
+    .inner {
+      display: flex;
+      width: 100%;
+
+      * {
+        width: 50%;
+        outline: 2px solid #33333320;
+        margin: 1px;
+        padding: 0.2rem;
+      }
+    }
+  }
+
+  .amount {
+    @include flex-param;
+
+    width: 110px;
+  }
+
+  .note {
+    @include flex-param;
+
+    width: 110px;
+  }
+}

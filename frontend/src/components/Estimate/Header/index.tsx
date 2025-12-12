@@ -1,7 +1,7 @@
 import css from "./index.module.scss";
-import { useEstimateContext } from "../../contexts/EstimateContext/context";
-import { apiClient } from "../../core/apiClient";
-import { AutoSaveInput } from "../AutoSaveInput";
+import { useEstimateContext } from "../../../contexts/EstimateContext/context";
+import { apiClient } from "../../../core/apiClient";
+import { AutoSaveInput } from "../../AutoSaveInput";
 import { useCallback } from "react";
 
 
