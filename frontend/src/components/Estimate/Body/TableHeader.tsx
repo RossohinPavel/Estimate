@@ -7,7 +7,7 @@ export const TableHeader = () => {
       <div className={css.number}>№ п/п</div>
       <div className={css.name}>Наименование работ и материалов</div>
       <div className={css.meas}>ед.изм.</div>
-      <div className={css.qty}>Кол-во</div>
+      <div className={css.meas}>Кол-во</div>
       <div className={css.material}>
         <div>Материалы</div>
         <div className={css.inner}>
@@ -23,7 +23,7 @@ export const TableHeader = () => {
         </div>
       </div>
       <div className={css.amount}>Всего (руб.)</div>
-      <div className={css.note}>Примечание</div>
+      <div className={css.amount}>Примечание</div>
     </div>
   );
 };

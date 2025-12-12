@@ -1,7 +1,14 @@
-@mixin flex-param {
+@mixin strech-param {
   flex: 0 0 auto;
+}
+
+@mixin flex-param {
   display: flex;
   align-items: center;
+  justify-content: center;
+}
+
+@mixin stroke {
   outline: 2px solid #33333320;
   margin: 1px;
   padding: 0.2rem;
@@ -11,64 +18,59 @@
   display: flex;
   align-items: stretch;
 
-  > div {
-    justify-content: space-around;
-  }
-
   .number {
+    @include strech-param;
     @include flex-param;
+    @include stroke;
 
     width: 50px;
   }
 
   .name {
+    @include flex-param;
+    @include stroke;
+
     width: 100%;
-    display: flex;
-    align-items: center;
-    outline: 2px solid #33333320;
-    margin: 1px;
   }
 
   .meas {
+    @include strech-param;
     @include flex-param;
-
-    width: 80px;
-  }
-
-  .qty {
-    @include flex-param;
+    @include stroke;
 
     width: 80px;
   }
 
   .material {
-    @include flex-param;
+    @include strech-param;
 
     flex-direction: column;
     width: 180px;
+
+    :first-child {
+      @include strech-param;
+      @include flex-param;
+      @include stroke;
+    }
 
     .inner {
       display: flex;
       width: 100%;
 
       * {
+        @include flex-param;
+        @include stroke;
+
         width: 50%;
-        outline: 2px solid #33333320;
-        margin: 1px;
-        padding: 0.2rem;
       }
     }
   }
 
   .amount {
+    @include strech-param;
     @include flex-param;
+    @include stroke;
 
-    width: 110px;
-  }
-
-  .note {
-    @include flex-param;
-
-    width: 110px;
+    width: 100px;
   }
 }
