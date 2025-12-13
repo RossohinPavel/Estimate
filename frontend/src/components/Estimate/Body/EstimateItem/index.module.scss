@@ -1,0 +1,65 @@
+@mixin strech-param {
+  flex: 0 0 auto;
+}
+
+@mixin flex-param {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin stroke {
+  outline: 2px solid #33333320;
+  margin: 1px;
+  padding: 0.2rem;
+}
+
+.item {
+  display: flex;
+  align-items: stretch;
+
+  .number {
+    @include strech-param;
+    @include flex-param;
+    @include stroke;
+
+    width: 50px;
+  }
+
+  .name {
+    @include flex-param;
+    @include stroke;
+
+    width: 100%;
+  }
+
+  .meas {
+    @include strech-param;
+    @include flex-param;
+    @include stroke;
+
+    width: 80px;
+  }
+
+  .material {
+    @include strech-param;
+    @include flex-param;
+
+    width: 180px;
+
+    * {
+      @include flex-param;
+      @include stroke;
+
+      width: 50%;
+    }
+  }
+
+  .amount {
+    @include strech-param;
+    @include flex-param;
+    @include stroke;
+
+    width: 100px;
+  }
+}

@@ -1,0 +1,68 @@
+@import "../../../styles/vars";
+
+@mixin strech-param {
+  flex: 0 0 auto;
+}
+
+@mixin flex-param {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin stroke {
+  outline: 2px solid #33333320;
+  margin: 1px;
+  padding: 0.2rem;
+}
+
+@mixin line {
+  display: flex;
+  width: 100%;
+}
+
+.estimate-footer {
+  margin-top: 0.5rem;
+
+  .line-total {
+    @include line;
+
+    color: $excel-white;
+    background-color: $excel-green;
+  }
+
+  .line {
+    @include line;
+
+    background-color: $excel-light-green;
+  }
+
+  .name {
+    @include flex-param;
+    @include stroke;
+
+    width: 100%;
+  }
+
+  .materials {
+    @include strech-param;
+
+    display: flex;
+    width: 180px;
+
+    .item {
+      @include flex-param;
+      @include stroke;
+
+      width: 50%;
+    }
+  }
+
+  .total {
+    @include strech-param;
+    @include flex-param;
+    @include stroke;
+
+    width: 100px;
+  }
+}

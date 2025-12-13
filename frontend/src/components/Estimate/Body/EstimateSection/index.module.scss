@@ -1,0 +1,76 @@
+@import "../../../../styles/vars";
+
+@mixin strech-param {
+  flex: 0 0 auto;
+}
+
+@mixin flex-param {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin stroke {
+  outline: 2px solid #33333320;
+  margin: 1px;
+  padding: 0.2rem;
+}
+
+.section {
+  margin-top: 10px;
+
+  .header {
+    display: flex;
+
+    .name {
+      background-color: $excel-light-green;
+      display: flex;
+      align-items: center;
+      padding: 3px 10px;
+      border-radius: 5px 5px 0 0;
+
+      input {
+        background-color: $excel-light-green;
+        border: none;
+      }
+    }
+
+    .filler {
+      width: 100%;
+      border-bottom: 2px solid #33333320;
+    }
+
+    .actions {
+      display: flex;
+    }
+  }
+
+  .footer {
+    display: flex;
+    color: $excel-white;
+    background-color: $excel-green;
+
+    .section-amount {
+      @include flex-param;
+      @include stroke;
+
+      width: 100%;
+    }
+
+    .material-amount {
+      @include strech-param;
+      @include flex-param;
+      @include stroke;
+
+      width: 178px;
+    }
+
+    .total-amount {
+      @include strech-param;
+      @include flex-param;
+      @include stroke;
+
+      width: 100px;
+    }
+  }
+}

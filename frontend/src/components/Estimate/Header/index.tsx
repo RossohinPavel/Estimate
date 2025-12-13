@@ -13,7 +13,7 @@ export const EstimateHeader = () => {
       const data = { [key]: value };
       apiClient
         .updateEstimate(estimate.id, data)
-        .then(() => console.info("[Debounced] - Attr updated", data))
+        .then(() => console.info("Attr updated", data))
         .catch((err) => console.error(err));
     },
     [estimate.id]
